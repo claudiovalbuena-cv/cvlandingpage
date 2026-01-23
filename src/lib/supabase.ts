@@ -5,8 +5,16 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+const isMock = supabaseUrl.includes('placeholder') || supabaseAnonKey.includes('placeholder');
+
+
 // Helper functions
 export async function getServices() {
+    if (isMock) {
+        console.warn('Using mock data for services (Supabase not configured)');
+        return [];
+    }
+
     const { data, error } = await supabase
         .from('services')
         .select('*')
@@ -20,6 +28,11 @@ export async function getServices() {
 }
 
 export async function getBookings() {
+    if (isMock) {
+        console.warn('Using mock data for bookings (Supabase not configured)');
+        return [];
+    }
+
     const { data, error } = await supabase
         .from('bookings')
         .select('*, service:services(*)')
@@ -33,6 +46,11 @@ export async function getBookings() {
 }
 
 export async function getSettings(): Promise<Record<string, string>> {
+    if (isMock) {
+        console.warn('Using mock data for settings (Supabase not configured)');
+        return {};
+    }
+
     const { data, error } = await supabase
         .from('settings')
         .select('*');
