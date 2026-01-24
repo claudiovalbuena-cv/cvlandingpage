@@ -15,12 +15,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-    title: "Melody Photography | Capture Your Moments",
-    description: "Professional photography services for weddings, portraits, fashion, and lifestyle. Every moment deserves to be captured beautifully.",
-    keywords: ["photography", "wedding photographer", "portrait photography", "fashion photography", "professional photographer"],
+    title: "Claudio Valbuena Fotografía",
+    description: "Servicios de fotografía profesional para bodas, retratos, moda y estilo de vida. Cada momento merece ser capturado hermosamente.",
+    keywords: ["fotografía", "fotógrafo de bodas", "fotografía de retratos", "fotografía de moda", "fotógrafo profesional"],
     openGraph: {
-        title: "Melody Photography | Capture Your Moments",
-        description: "Professional photography services for weddings, portraits, fashion, and lifestyle.",
+        title: "Claudio Valbuena Fotografía",
+        description: "Servicios de fotografía profesional para bodas, retratos, moda y estilo de vida.",
         type: "website",
     },
 };
