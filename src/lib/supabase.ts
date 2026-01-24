@@ -48,7 +48,13 @@ export async function getBookings() {
 export async function getSettings(): Promise<Record<string, string>> {
     if (isMock) {
         console.warn('Using mock data for settings (Supabase not configured)');
-        return {};
+        return {
+            instagram: 'https://instagram.com/demo',
+            linkedin: 'https://linkedin.com/in/demo',
+            pinterest: 'https://pinterest.com/demo',
+            social_style: 'minimal',
+            site_name: 'Claudio Valbuena',
+        };
     }
 
     const { data, error } = await supabase
@@ -87,6 +93,11 @@ export async function createBooking(booking: {
 }
 
 export async function updateSetting(key: string, value: string) {
+    if (isMock) {
+        console.log(`[MOCK] Updating setting ${key} to ${value}`);
+        return { key, value };
+    }
+
     const { data, error } = await supabase
         .from('settings')
         .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
