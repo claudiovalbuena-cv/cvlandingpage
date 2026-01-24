@@ -34,7 +34,8 @@ A stunning, high-end photography portfolio and booking system built with modern 
    
    Edit `.env.local` and add your credentials:
    ```
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://pehtvrduqtvekeffxshk.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    RESEND_API_KEY=your_resend_api_key
    EMAIL_FROM=onboarding@resend.dev
