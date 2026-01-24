@@ -8,6 +8,15 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 const isMock = supabaseUrl.includes('placeholder') || supabaseAnonKey.includes('placeholder');
 
 
+// In-memory mock store
+let mockSettings: Record<string, string> = {
+    instagram: 'https://instagram.com/demo',
+    linkedin: 'https://linkedin.com/in/demo',
+    pinterest: 'https://pinterest.com/demo',
+    social_style: 'minimal',
+    site_name: 'Claudio Valbuena',
+};
+
 // Helper functions
 export async function getServices() {
     if (isMock) {
@@ -48,13 +57,7 @@ export async function getBookings() {
 export async function getSettings(): Promise<Record<string, string>> {
     if (isMock) {
         console.warn('Using mock data for settings (Supabase not configured)');
-        return {
-            instagram: 'https://instagram.com/demo',
-            linkedin: 'https://linkedin.com/in/demo',
-            pinterest: 'https://pinterest.com/demo',
-            social_style: 'minimal',
-            site_name: 'Claudio Valbuena',
-        };
+        return { ...mockSettings };
     }
 
     const { data, error } = await supabase
@@ -95,6 +98,7 @@ export async function createBooking(booking: {
 export async function updateSetting(key: string, value: string) {
     if (isMock) {
         console.log(`[MOCK] Updating setting ${key} to ${value}`);
+        mockSettings[key] = value;
         return { key, value };
     }
 
