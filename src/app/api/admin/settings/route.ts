@@ -28,6 +28,7 @@ export async function PUT(request: NextRequest) {
             'pinterest',
             'linkedin',
             'behance',
+            'social_style',
         ];
 
         for (const key of settingKeys) {

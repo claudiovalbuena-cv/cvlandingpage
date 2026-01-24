@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SocialLinks from './SocialLinks';
 
 interface FooterProps {
     settings?: {
@@ -44,19 +45,13 @@ export default function Footer({ settings }: FooterProps) {
                     </nav>
 
                     {/* Social Links */}
-                    <nav className="flex gap-6">
-                        {socialLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                href={link.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm text-gray-600 hover:text-black transition-colors"
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
+                    {/* Social Links */}
+                    <div className="flex gap-6">
+                        <SocialLinks
+                            settings={settings}
+                            style={(settings as any)?.social_style as any || 'minimal'}
+                        />
+                    </div>
                 </div>
 
                 {/* Bottom Section */}

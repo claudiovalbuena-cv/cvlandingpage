@@ -13,6 +13,7 @@ interface SettingsData {
     pinterest: string;
     linkedin: string;
     behance: string;
+    social_style: string;
 }
 
 export default function AdminSettingsPage() {
@@ -26,6 +27,7 @@ export default function AdminSettingsPage() {
         pinterest: '',
         linkedin: '',
         behance: '',
+        social_style: 'minimal',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -75,7 +77,7 @@ export default function AdminSettingsPage() {
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setSettings((prev) => ({ ...prev, [name]: value }));
     };
@@ -242,6 +244,20 @@ export default function AdminSettingsPage() {
                                         className="w-full px-4 py-3 border border-gray-300"
                                         placeholder="https://behance.net/username"
                                     />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium mb-2">Social Icons Style</label>
+                                    <select
+                                        name="social_style"
+                                        value={settings.social_style || 'minimal'}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300 bg-white"
+                                    >
+                                        <option value="text">Text Only</option>
+                                        <option value="minimal">Minimalist (Outlined)</option>
+                                        <option value="filled">Filled</option>
+                                        <option value="circle">Circle Container</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
