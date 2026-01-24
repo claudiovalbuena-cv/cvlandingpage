@@ -42,6 +42,11 @@ export default function AdminServicesPage() {
         const method = editingId ? 'PUT' : 'POST';
 
         try {
+            if (!formData.name || !formData.price || isNaN(parseFloat(formData.price))) {
+                alert('Please enter a valid name and price');
+                return;
+            }
+
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
