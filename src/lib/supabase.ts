@@ -83,16 +83,25 @@ export async function createBooking(booking: {
     preferred_date: string;
     message?: string;
 }) {
+    // We attempt insertion. If it's a public user, they won't have SELECT permission
+    // so we don't use .select() by default to avoid RLS 401/403 errors.
     const { data, error } = await supabase
         .from('bookings')
         .insert([{ ...booking, status: 'pending' }])
-        .select()
-        .single();
+        .select();
 
     if (error) {
-        throw error;
+        // If SELECT fails, we try a simple insert without select
+        // This is a fallback for public users who can INSERT but not SELECT
+        const { error: insertError } = await supabase
+            .from('bookings')
+            .insert([{ ...booking, status: 'pending' }]);
+
+        if (insertError) throw insertError;
+        return { success: true };
     }
-    return data;
+
+    return data ? data[0] : null;
 }
 
 export async function updateSetting(key: string, value: string) {

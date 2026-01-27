@@ -10,10 +10,25 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const { name, email, phone, service_id, preferred_date, message } = body;
 
+        // Basic Sanitization
+        const cleanName = name?.trim();
+        const cleanEmail = email?.trim().toLowerCase();
+        const cleanPhone = phone?.trim();
+        const cleanMessage = message?.trim();
+
         // Validate required fields
-        if (!name || !email || !preferred_date) {
+        if (!cleanName || !cleanEmail || !preferred_date) {
             return NextResponse.json(
                 { error: 'Name, email, and preferred date are required' },
+                { status: 400 }
+            );
+        }
+
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(cleanEmail)) {
+            return NextResponse.json(
+                { error: 'Invalid email format' },
                 { status: 400 }
             );
         }
@@ -30,12 +45,12 @@ export async function POST(request: NextRequest) {
 
         // Save booking to Supabase
         const booking = await createBooking({
-            name,
-            email,
-            phone: phone || null,
+            name: cleanName,
+            email: cleanEmail,
+            phone: cleanPhone || null,
             service_id: service_id || null,
             preferred_date,
-            message,
+            message: cleanMessage,
         });
 
         // Send confirmation email via Resend
@@ -80,7 +95,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            booking,
+            booking: booking || { message: 'Booking saved' },
             message: 'Booking request submitted successfully',
         });
     } catch (error) {
