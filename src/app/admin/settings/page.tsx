@@ -1,7 +1,6 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import AdminHeader from '@/components/AdminHeader';
 
 interface SettingsData {
     logo_url: string;
@@ -84,38 +83,7 @@ export default function AdminSettingsPage() {
 
     return (
         <div className="min-h-screen bg-gray-light">
-            {/* Header */}
-            <header className="bg-black text-white py-4 px-6">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <h1 className="font-serif text-2xl">Admin Dashboard</h1>
-                    <Link
-                        href="/"
-                        className="text-sm text-white/80 hover:text-white transition-colors"
-                    >
-                        ← Back to Site
-                    </Link>
-                </div>
-            </header>
-
-            {/* Navigation */}
-            <nav className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex gap-8">
-                        <Link href="/admin" className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors">
-                            Overview
-                        </Link>
-                        <Link href="/admin/services" className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors">
-                            Services
-                        </Link>
-                        <Link href="/admin/bookings" className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors">
-                            Bookings
-                        </Link>
-                        <Link href="/admin/settings" className="py-4 border-b-2 border-accent text-accent font-medium">
-                            Settings
-                        </Link>
-                    </div>
-                </div>
-            </nav>
+            <AdminHeader />
 
             {/* Content */}
             <main className="max-w-4xl mx-auto px-6 py-12">

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getServices, getBookings, getSettings } from '@/lib/supabase';
+import AdminHeader from '@/components/AdminHeader';
 
 export const metadata: Metadata = {
     title: 'Admin Dashboard | Melody Photography',
@@ -19,50 +20,7 @@ export default async function AdminPage() {
 
     return (
         <div className="min-h-screen bg-gray-light">
-            {/* Header */}
-            <header className="bg-black text-white py-4 px-6">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <h1 className="font-serif text-2xl">Admin Dashboard</h1>
-                    <Link
-                        href="/"
-                        className="text-sm text-white/80 hover:text-white transition-colors"
-                    >
-                        ← Back to Site
-                    </Link>
-                </div>
-            </header>
-
-            {/* Navigation */}
-            <nav className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex gap-8">
-                        <Link
-                            href="/admin"
-                            className="py-4 border-b-2 border-accent text-accent font-medium"
-                        >
-                            Overview
-                        </Link>
-                        <Link
-                            href="/admin/services"
-                            className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors"
-                        >
-                            Services
-                        </Link>
-                        <Link
-                            href="/admin/bookings"
-                            className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors"
-                        >
-                            Bookings
-                        </Link>
-                        <Link
-                            href="/admin/settings"
-                            className="py-4 border-b-2 border-transparent hover:border-gray-300 transition-colors"
-                        >
-                            Settings
-                        </Link>
-                    </div>
-                </div>
-            </nav>
+            <AdminHeader />
 
             {/* Content */}
             <main className="max-w-7xl mx-auto px-6 py-12">
@@ -107,10 +65,10 @@ export default async function AdminPage() {
                                 <div className="text-right">
                                     <p className="text-sm">{booking.preferred_date}</p>
                                     <span className={`text-xs px-2 py-1 rounded ${booking.status === 'confirmed'
-                                            ? 'bg-green-100 text-green-700'
-                                            : booking.status === 'cancelled'
-                                                ? 'bg-red-100 text-red-700'
-                                                : 'bg-yellow-100 text-yellow-700'
+                                        ? 'bg-green-100 text-green-700'
+                                        : booking.status === 'cancelled'
+                                            ? 'bg-red-100 text-red-700'
+                                            : 'bg-yellow-100 text-yellow-700'
                                         }`}>
                                         {booking.status}
                                     </span>

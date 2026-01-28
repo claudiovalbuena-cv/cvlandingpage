@@ -1,9 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
+import { createSupabaseServerClient } from './supabase/server';
+import { createSupabaseBrowserClient } from './supabase/client';
+
+const isServer = typeof window === 'undefined';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder_key';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+function getSupabaseClient() {
+    return isServer ? createSupabaseServerClient() : createSupabaseBrowserClient();
+}
 
 const isMock = supabaseUrl.includes('placeholder') || supabaseAnonKey.includes('placeholder');
 
@@ -24,6 +29,7 @@ export async function getServices() {
         return [];
     }
 
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('services')
         .select('*')
@@ -42,6 +48,7 @@ export async function getBookings() {
         return [];
     }
 
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('bookings')
         .select('*, service:services(*)')
@@ -60,6 +67,7 @@ export async function getSettings(): Promise<Record<string, string>> {
         return { ...mockSettings };
     }
 
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('settings')
         .select('*');
@@ -85,6 +93,7 @@ export async function createBooking(booking: {
 }) {
     // We attempt insertion. If it's a public user, they won't have SELECT permission
     // so we don't use .select() by default to avoid RLS 401/403 errors.
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('bookings')
         .insert([{ ...booking, status: 'pending' }])
@@ -111,6 +120,7 @@ export async function updateSetting(key: string, value: string) {
         return { key, value };
     }
 
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('settings')
         .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
@@ -130,6 +140,7 @@ export async function updateService(id: string, updates: Partial<{
     category: string;
     icon: string;
 }>) {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('services')
         .update(updates)
@@ -150,6 +161,7 @@ export async function createService(service: {
     category?: string;
     icon?: string;
 }) {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('services')
         .insert([service])
@@ -163,6 +175,7 @@ export async function createService(service: {
 }
 
 export async function deleteService(id: string) {
+    const supabase = getSupabaseClient();
     const { error } = await supabase
         .from('services')
         .delete()
@@ -174,6 +187,7 @@ export async function deleteService(id: string) {
 }
 
 export async function updateBookingStatus(id: string, status: 'pending' | 'confirmed' | 'cancelled') {
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('bookings')
         .update({ status })
