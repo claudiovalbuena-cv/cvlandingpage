@@ -21,7 +21,12 @@ const portfolioImages = [
     },
 ];
 
-export default function Portfolio() {
+interface PortfolioProps {
+    items?: any[];
+}
+
+export default function Portfolio({ items = [] }: PortfolioProps) {
+    const displayItems = items.length > 0 ? items : portfolioImages;
     const portfolioRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -57,20 +62,26 @@ export default function Portfolio() {
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                    {portfolioImages.map((image, index) => (
-                        <div
-                            key={image.src}
-                            className={`photo-grid-item image-hover-zoom aspect-[3/4] relative ${image.span}`}
-                        >
-                            <Image
-                                src={image.src}
-                                alt={image.alt}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 50vw, 33vw"
-                            />
-                        </div>
-                    ))}
+                    {displayItems.map((image, index) => {
+                        const url = image.url || image.src;
+                        const alt = image.title || image.alt;
+                        const span = image.span || (index % 3 === 1 ? 'col-span-1 row-span-2' : 'col-span-1 row-span-1');
+
+                        return (
+                            <div
+                                key={url}
+                                className={`photo-grid-item image-hover-zoom aspect-[3/4] relative ${span}`}
+                            >
+                                <Image
+                                    src={url}
+                                    alt={alt}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 50vw, 33vw"
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

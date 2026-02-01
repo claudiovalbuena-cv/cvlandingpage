@@ -30,6 +30,11 @@ export async function PUT(request: NextRequest) {
             'behance',
             'facebook',
             'social_style',
+            'hero_title',
+            'hero_subtitle',
+            'hero_image_url',
+            'about_title',
+            'about_description',
         ];
 
         for (const key of settingKeys) {

@@ -4,7 +4,13 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Hero() {
+interface HeroProps {
+    title?: string;
+    subtitle?: string;
+    backgroundImage?: string;
+}
+
+export default function Hero({ title, subtitle, backgroundImage }: HeroProps) {
     const heroRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -34,8 +40,8 @@ export default function Hero() {
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/_DSC0043.jpg"
-                    alt="Wedding couple"
+                    src={backgroundImage || "/images/_DSC0043.jpg"}
+                    alt="Hero background"
                     fill
                     className="object-cover"
                     priority
@@ -46,10 +52,10 @@ export default function Hero() {
             {/* Content */}
             <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
                 <h1 className="animate-on-scroll font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] mb-6">
-                    Capture Moments
+                    {title || 'Capture Moments'}
                 </h1>
                 <p className="animate-on-scroll delay-100 text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10">
-                    A portfolio landing page designed for photographers who want their images to do the talking.
+                    {subtitle || 'A portfolio landing page designed for photographers who want their images to do the talking.'}
                 </p>
                 <Link
                     href="#booking"

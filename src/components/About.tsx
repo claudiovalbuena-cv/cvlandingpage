@@ -26,7 +26,12 @@ const services = [
     },
 ];
 
-export default function About() {
+interface AboutProps {
+    title?: string;
+    description?: string;
+}
+
+export default function About({ title, description }: AboutProps) {
     const aboutRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -57,11 +62,10 @@ export default function About() {
                 {/* Philosophy */}
                 <div className="mb-16">
                     <h2 className="animate-on-scroll font-serif text-3xl md:text-4xl lg:text-5xl text-accent mb-6">
-                        My Lens. My Language.
+                        {title || 'My Lens. My Language.'}
                     </h2>
                     <p className="animate-on-scroll delay-100 text-white/70 max-w-2xl mx-auto leading-relaxed">
-                        For me, photography isn&apos;t about clicking a shutter. It&apos;s about capturing
-                        the soul of a moment, the depth of an emotion, and the beauty hidden in everyday life.
+                        {description || "For me, photography isn't about clicking a shutter. It's about capturing the soul of a moment, the depth of an emotion, and the beauty hidden in everyday life."}
                     </p>
                 </div>
 

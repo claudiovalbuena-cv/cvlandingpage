@@ -42,7 +42,12 @@ const photos = [
     },
 ];
 
-export default function PhotoGrid() {
+interface PhotoGridProps {
+    items?: any[];
+}
+
+export default function PhotoGrid({ items = [] }: PhotoGridProps) {
+    const displayPhotos = items.length > 0 ? items.slice(0, 9) : photos;
     const gridRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -72,14 +77,14 @@ export default function PhotoGrid() {
             className="bg-black py-0"
         >
             <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3">
-                {photos.map((photo, index) => (
+                {displayPhotos.map((photo, index) => (
                     <div
                         key={index}
                         className="photo-grid-item image-hover-zoom relative aspect-square"
                     >
                         <Image
-                            src={photo.src}
-                            alt={photo.alt}
+                            src={photo.url || photo.src}
+                            alt={photo.title || photo.alt}
                             fill
                             className="object-cover"
                             sizes="33vw"

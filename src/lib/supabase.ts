@@ -201,3 +201,74 @@ export async function updateBookingStatus(id: string, status: 'pending' | 'confi
     }
     return data;
 }
+
+// Portfolio helpers
+export async function getPortfolio() {
+    if (isMock) {
+        console.warn('Using mock data for portfolio (Supabase not configured)');
+        return [];
+    }
+
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+        .from('portfolio')
+        .select('*')
+        .order('order_index', { ascending: true });
+
+    if (error) {
+        console.error('Error fetching portfolio:', error);
+        return [];
+    }
+    return data;
+}
+
+export async function createPortfolioItem(item: {
+    url: string;
+    title?: string;
+    category?: string;
+    order_index?: number;
+}) {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+        .from('portfolio')
+        .insert([item])
+        .select()
+        .single();
+
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function updatePortfolioItem(id: string, updates: Partial<{
+    url: string;
+    title: string;
+    category: string;
+    order_index: number;
+}>) {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+        .from('portfolio')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+    if (error) {
+        throw error;
+    }
+    return data;
+}
+
+export async function deletePortfolioItem(id: string) {
+    const supabase = getSupabaseClient();
+    const { error } = await supabase
+        .from('portfolio')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        throw error;
+    }
+}

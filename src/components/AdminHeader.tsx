@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
-import { LogOut, LayoutDashboard, Briefcase, Calendar, Settings, ArrowLeft } from 'lucide-react';
+import { LogOut, LayoutDashboard, Briefcase, Calendar, Settings, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
 export default function AdminHeader() {
     const router = useRouter();
@@ -19,6 +19,7 @@ export default function AdminHeader() {
     const navItems = [
         { name: 'Overview', href: '/admin', icon: LayoutDashboard },
         { name: 'Services', href: '/admin/services', icon: Briefcase },
+        { name: 'Portfolio', href: '/admin/portfolio', icon: ImageIcon },
         { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
         { name: 'Settings', href: '/admin/settings', icon: Settings },
     ];
@@ -63,8 +64,8 @@ export default function AdminHeader() {
                                 key={item.name}
                                 href={item.href}
                                 className={`flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 transition-all ${isActive
-                                        ? 'border-accent text-accent'
-                                        : 'border-transparent text-gray-500 hover:text-black hover:border-gray-200'
+                                    ? 'border-accent text-accent'
+                                    : 'border-transparent text-gray-500 hover:text-black hover:border-gray-200'
                                     }`}
                             >
                                 <Icon size={18} />

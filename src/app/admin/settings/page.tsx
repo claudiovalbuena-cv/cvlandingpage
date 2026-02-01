@@ -16,6 +16,11 @@ interface SettingsData {
     behance: string;
     facebook: string;
     social_style: string;
+    hero_title: string;
+    hero_subtitle: string;
+    hero_image_url: string;
+    about_title: string;
+    about_description: string;
 }
 
 export default function AdminSettingsPage() {
@@ -31,6 +36,11 @@ export default function AdminSettingsPage() {
         behance: '',
         facebook: '',
         social_style: 'minimal',
+        hero_title: '',
+        hero_subtitle: '',
+        hero_image_url: '',
+        about_title: '',
+        about_description: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -136,6 +146,75 @@ export default function AdminSettingsPage() {
                                     <p className="text-sm text-gray-500 mt-1">
                                         Leave empty to use text logo
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Hero Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">Hero Section</h3>
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Hero Title</label>
+                                    <input
+                                        type="text"
+                                        name="hero_title"
+                                        value={settings.hero_title}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="Capture Moments"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Hero Subtitle</label>
+                                    <textarea
+                                        name="hero_subtitle"
+                                        value={settings.hero_subtitle}
+                                        onChange={(e) => setSettings(prev => ({ ...prev, hero_subtitle: e.target.value }))}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        rows={2}
+                                        placeholder="A portfolio landing page designed for photographers..."
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Hero Image URL</label>
+                                    <input
+                                        type="text"
+                                        name="hero_image_url"
+                                        value={settings.hero_image_url}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="/images/_DSC0043.jpg"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* About Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">About Section</h3>
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">About Title</label>
+                                    <input
+                                        type="text"
+                                        name="about_title"
+                                        value={settings.about_title}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="My Lens. My Language."
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">About Description</label>
+                                    <textarea
+                                        name="about_description"
+                                        value={settings.about_description}
+                                        onChange={(e) => setSettings(prev => ({ ...prev, about_description: e.target.value }))}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        rows={4}
+                                        placeholder="For me, photography isn't about clicking a shutter..."
+                                    />
                                 </div>
                             </div>
                         </div>
