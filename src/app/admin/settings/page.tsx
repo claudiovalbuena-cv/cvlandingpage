@@ -14,6 +14,7 @@ interface SettingsData {
     pinterest: string;
     linkedin: string;
     behance: string;
+    facebook: string;
     social_style: string;
 }
 
@@ -28,6 +29,7 @@ export default function AdminSettingsPage() {
         pinterest: '',
         linkedin: '',
         behance: '',
+        facebook: '',
         social_style: 'minimal',
     });
     const [isLoading, setIsLoading] = useState(true);
@@ -213,6 +215,17 @@ export default function AdminSettingsPage() {
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 border border-gray-300"
                                         placeholder="https://behance.net/username"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Facebook</label>
+                                    <input
+                                        type="url"
+                                        name="facebook"
+                                        value={settings.facebook}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="https://facebook.com/username"
                                     />
                                 </div>
                                 <div className="md:col-span-2">

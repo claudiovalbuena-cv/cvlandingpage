@@ -7,6 +7,7 @@ interface FooterProps {
         pinterest?: string;
         linkedin?: string;
         behance?: string;
+        facebook?: string;
     };
 }
 

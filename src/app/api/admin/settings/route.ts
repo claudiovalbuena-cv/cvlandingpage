@@ -28,6 +28,7 @@ export async function PUT(request: NextRequest) {
             'pinterest',
             'linkedin',
             'behance',
+            'facebook',
             'social_style',
         ];
 

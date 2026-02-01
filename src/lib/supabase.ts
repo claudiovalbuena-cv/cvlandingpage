@@ -18,6 +18,7 @@ let mockSettings: Record<string, string> = {
     instagram: 'https://instagram.com/demo',
     linkedin: 'https://linkedin.com/in/demo',
     pinterest: 'https://pinterest.com/demo',
+    facebook: 'https://facebook.com/demo',
     social_style: 'minimal',
     site_name: 'Claudio Valbuena',
 };
