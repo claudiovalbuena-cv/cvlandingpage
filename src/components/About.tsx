@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { Camera, Heart, User, calendar-check } from 'lucide-react';
+import { Camera, Heart, User, calendar } from 'lucide-react';
 
 const services = [
     {
@@ -20,7 +20,7 @@ const services = [
         description: 'Authentic, expressive, professional',
     },
     {
-        icon: calendar-check,
+        icon: calendar,
         title: 'Evento',
         description: 'Cultural, vibrant, candid',
     },
