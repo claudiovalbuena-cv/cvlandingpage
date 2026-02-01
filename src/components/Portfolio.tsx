@@ -58,7 +58,7 @@ export default function Portfolio({ items = [], title }: PortfolioProps) {
             className="bg-white section-padding"
         >
             <div className="max-w-6xl mx-auto">
-                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-12">
+                <h2 className="animate-on-scroll font-serif text-4xl md:text-5xl lg:text-6xl text-center mb-16">
                     {title || 'Stories Told Through My Lens'}
                 </h2>
 
