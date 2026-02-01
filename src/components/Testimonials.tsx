@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const testimonials = [
     {
         name: 'Miriam & Paul',
-        text: 'Every photo tells a story. Our wedding album still makes us emotional.',
+        text: 'Cada foto cuenta una historia. Nuestro álbum de bodas todavía nos emociona.',
     },
     {
         name: 'Brand Momently',
