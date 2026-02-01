@@ -42,12 +42,25 @@ export default async function Home() {
                 title={settings.about_title}
                 description={settings.about_description}
             />
-            <Portfolio items={portfolio} />
-            <BehindCamera />
+            <Portfolio
+                items={portfolio}
+                title={settings.portfolio_title}
+            />
+            <BehindCamera
+                subtitle={settings.behind_camera_subtitle}
+                title={settings.behind_camera_title}
+                description1={settings.behind_camera_description1}
+                description2={settings.behind_camera_description2}
+                imageUrl={settings.behind_camera_image_url}
+            />
             <PhotoGrid items={portfolio} />
             <Testimonials />
             <CTA />
-            <Pricing services={services} />
+            <Pricing
+                services={services}
+                subtitle={settings.pricing_subtitle}
+                title={settings.pricing_title}
+            />
             <BookingForm services={services} />
             <Footer
                 settings={settings}

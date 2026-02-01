@@ -23,9 +23,10 @@ const portfolioImages = [
 
 interface PortfolioProps {
     items?: any[];
+    title?: string;
 }
 
-export default function Portfolio({ items = [] }: PortfolioProps) {
+export default function Portfolio({ items = [], title }: PortfolioProps) {
     const displayItems = items.length > 0 ? items : portfolioImages;
     const portfolioRef = useRef<HTMLElement>(null);
 
@@ -57,8 +58,8 @@ export default function Portfolio({ items = [] }: PortfolioProps) {
             className="bg-white section-padding"
         >
             <div className="max-w-6xl mx-auto">
-                <h2 className="animate-on-scroll font-serif text-4xl md:text-5xl lg:text-6xl text-center mb-16">
-                    Stories Told Through My Lens
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-12">
+                    {title || 'Stories Told Through My Lens'}
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">

@@ -193,7 +193,7 @@ export default function AdminPortfolioPage() {
                                         <option value="fashion">Fashion</option>
                                         <option value="wedding">Wedding</option>
                                         <option value="portrait">Portrait</option>
-                                        <option value="travel">Travel</option>
+                                        <option value="eventos">Eventos</option>
                                     </select>
                                 </div>
                             </div>

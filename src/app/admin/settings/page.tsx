@@ -23,6 +23,14 @@ interface SettingsData {
     hero_image_url: string;
     about_title: string;
     about_description: string;
+    portfolio_title: string;
+    behind_camera_subtitle: string;
+    behind_camera_title: string;
+    behind_camera_description1: string;
+    behind_camera_description2: string;
+    behind_camera_image_url: string;
+    pricing_subtitle: string;
+    pricing_title: string;
 }
 
 export default function AdminSettingsPage() {
@@ -43,6 +51,14 @@ export default function AdminSettingsPage() {
         hero_image_url: '',
         about_title: '',
         about_description: '',
+        portfolio_title: '',
+        behind_camera_subtitle: '',
+        behind_camera_title: '',
+        behind_camera_description1: '',
+        behind_camera_description2: '',
+        behind_camera_image_url: '',
+        pricing_subtitle: '',
+        pricing_title: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -97,6 +113,35 @@ export default function AdminSettingsPage() {
         }
     };
 
+    const handleBehindCameraUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `behind_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `settings/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setSettings(prev => ({ ...prev, behind_camera_image_url: publicUrl }));
+        } catch (error) {
+            console.error('Error uploading behind camera image:', error);
+            alert('Error uploading image');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSaving(true);
@@ -123,7 +168,7 @@ export default function AdminSettingsPage() {
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setSettings((prev) => ({ ...prev, [name]: value }));
     };
@@ -203,7 +248,7 @@ export default function AdminSettingsPage() {
                                     <textarea
                                         name="hero_subtitle"
                                         value={settings.hero_subtitle}
-                                        onChange={(e) => setSettings(prev => ({ ...prev, hero_subtitle: e.target.value }))}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 border border-gray-300"
                                         rows={2}
                                         placeholder="A portfolio landing page designed for photographers..."
@@ -249,6 +294,24 @@ export default function AdminSettingsPage() {
                             </div>
                         </div>
 
+                        {/* Portfolio Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">Portfolio Section</h3>
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Portfolio Title</label>
+                                    <input
+                                        type="text"
+                                        name="portfolio_title"
+                                        value={settings.portfolio_title}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="Stories Told Through My Lens"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
                         {/* About Section */}
                         <div className="bg-white border border-gray-200 p-6">
                             <h3 className="font-serif text-xl mb-6">About Section</h3>
@@ -269,10 +332,131 @@ export default function AdminSettingsPage() {
                                     <textarea
                                         name="about_description"
                                         value={settings.about_description}
-                                        onChange={(e) => setSettings(prev => ({ ...prev, about_description: e.target.value }))}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 border border-gray-300"
                                         rows={4}
                                         placeholder="For me, photography isn't about clicking a shutter..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Behind the Camera Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">Behind the Camera</h3>
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Subtitle</label>
+                                        <input
+                                            type="text"
+                                            name="behind_camera_subtitle"
+                                            value={settings.behind_camera_subtitle}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="About me"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Title</label>
+                                        <input
+                                            type="text"
+                                            name="behind_camera_title"
+                                            value={settings.behind_camera_title}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Behind the Camera"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Description 1</label>
+                                        <textarea
+                                            name="behind_camera_description1"
+                                            value={settings.behind_camera_description1}
+                                            onChange={handleChange}
+                                            rows={3}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="First paragraph..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Description 2</label>
+                                        <textarea
+                                            name="behind_camera_description2"
+                                            value={settings.behind_camera_description2}
+                                            onChange={handleChange}
+                                            rows={3}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Second paragraph..."
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Image</label>
+                                    <div className="flex gap-4 items-start">
+                                        <div className="flex-1">
+                                            <input
+                                                type="text"
+                                                name="behind_camera_image_url"
+                                                value={settings.behind_camera_image_url}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300 mb-2"
+                                                placeholder="Image URL..."
+                                            />
+                                            <div className="mt-2">
+                                                <label className="relative cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 w-fit">
+                                                    <Upload size={16} />
+                                                    <span>{isUploading ? 'Uploading...' : 'Upload New Image'}</span>
+                                                    <input
+                                                        type="file"
+                                                        className="hidden"
+                                                        accept="image/*"
+                                                        onChange={handleBehindCameraUpload}
+                                                        disabled={isUploading}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        {settings.behind_camera_image_url && (
+                                            <div className="w-32 h-20 border border-gray-200 overflow-hidden bg-gray-50">
+                                                <img
+                                                    src={settings.behind_camera_image_url}
+                                                    alt="Behind Preview"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Pricing Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">Pricing Section</h3>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Subtitle</label>
+                                    <input
+                                        type="text"
+                                        name="pricing_subtitle"
+                                        value={settings.pricing_subtitle}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="Investment"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Title</label>
+                                    <input
+                                        type="text"
+                                        name="pricing_title"
+                                        value={settings.pricing_title}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="Photography Packages"
                                     />
                                 </div>
                             </div>

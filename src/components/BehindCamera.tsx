@@ -3,7 +3,21 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-export default function BehindCamera() {
+interface BehindCameraProps {
+    subtitle?: string;
+    title?: string;
+    description1?: string;
+    description2?: string;
+    imageUrl?: string;
+}
+
+export default function BehindCamera({
+    subtitle,
+    title,
+    description1,
+    description2,
+    imageUrl
+}: BehindCameraProps) {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -33,7 +47,7 @@ export default function BehindCamera() {
                 {/* Image */}
                 <div className="relative h-[400px] md:h-full">
                     <Image
-                        src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=1000"
+                        src={imageUrl || "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=1000"}
                         alt="Photographer with camera"
                         fill
                         className="object-cover"
@@ -43,18 +57,16 @@ export default function BehindCamera() {
                 {/* Content */}
                 <div className="p-8 md:p-16 lg:p-20">
                     <span className="animate-on-scroll text-accent text-sm tracking-widest uppercase mb-4 block">
-                        About me
+                        {subtitle || 'About me'}
                     </span>
                     <h2 className="animate-on-scroll delay-100 font-serif text-4xl md:text-5xl lg:text-6xl mb-6">
-                        Behind<br />the Camera
+                        {title || 'Behind\nthe Camera'}
                     </h2>
                     <p className="animate-on-scroll delay-200 text-white/70 leading-relaxed mb-6">
-                        From candid street captures to carefully staged editorial shoots, I&apos;ve always
-                        believed photography is about connection and storytelling.
+                        {description1 || "From candid street captures to carefully staged editorial shoots, I've always believed photography is about connection and storytelling."}
                     </p>
                     <p className="animate-on-scroll delay-300 text-white/70 leading-relaxed">
-                        Every client has a story — my job is to bring it to life through images that
-                        speak louder than words.
+                        {description2 || "Every client has a story — my job is to bring it to life through images that speak louder than words."}
                     </p>
                 </div>
             </div>

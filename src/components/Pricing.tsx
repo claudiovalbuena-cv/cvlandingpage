@@ -5,9 +5,11 @@ import type { Service } from '@/types';
 
 interface PricingProps {
     services: Service[];
+    subtitle?: string;
+    title?: string;
 }
 
-export default function Pricing({ services }: PricingProps) {
+export default function Pricing({ services, subtitle, title }: PricingProps) {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -68,10 +70,10 @@ export default function Pricing({ services }: PricingProps) {
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">
                     <span className="animate-on-scroll text-accent text-sm tracking-widest uppercase mb-4 block">
-                        Investment
+                        {subtitle || 'Investment'}
                     </span>
                     <h2 className="animate-on-scroll delay-100 font-serif text-4xl md:text-5xl">
-                        Photography Packages
+                        {title || 'Photography Packages'}
                     </h2>
                 </div>
 
