@@ -41,12 +41,7 @@ export default async function Home() {
             <Pricing services={services} />
             <BookingForm services={services} />
             <Footer
-                settings={{
-                    instagram: settings.instagram,
-                    pinterest: settings.pinterest,
-                    linkedin: settings.linkedin,
-                    behance: settings.behance,
-                }}
+                settings={settings}
             />
         </main>
     );
