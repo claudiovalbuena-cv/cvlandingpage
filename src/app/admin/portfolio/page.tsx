@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import AdminHeader from '@/components/AdminHeader';
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Trash2, GripVertical, Upload } from 'lucide-react';
+import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface PortfolioItem {
     id: string;
@@ -22,6 +23,8 @@ export default function AdminPortfolioPage() {
         title: '',
         category: 'fashion',
     });
+    const [uploading, setUploading] = useState(false);
+    const supabase = createSupabaseBrowserClient();
 
     useEffect(() => {
         fetchPortfolio();
@@ -36,6 +39,35 @@ export default function AdminPortfolioPage() {
             console.error('Error fetching portfolio:', error);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `portfolio/${fileName}`;
+
+            const { error: uploadError, data } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setFormData(prev => ({ ...prev, url: publicUrl }));
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -107,15 +139,38 @@ export default function AdminPortfolioPage() {
                         <h3 className="font-serif text-xl mb-6">Add New Photo</h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Image URL</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={formData.url}
-                                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300"
-                                    placeholder="/images/your-photo.jpg or external URL"
-                                />
+                                <label className="block text-sm font-medium mb-2">Image</label>
+                                <div className="flex gap-4 items-start">
+                                    <div className="flex-1">
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.url}
+                                            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                                            className="w-full px-4 py-3 border border-gray-300 mb-2"
+                                            placeholder="Paste image URL..."
+                                        />
+                                        <p className="text-xs text-gray-500">Or upload a file below:</p>
+                                    </div>
+                                    {formData.url && (
+                                        <div className="w-20 h-20 border border-gray-200 overflow-hidden bg-gray-50">
+                                            <img src={formData.url} alt="Preview" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="mt-2">
+                                    <label className="relative cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 w-fit">
+                                        <Upload size={16} />
+                                        <span>{uploading ? 'Uploading...' : 'Upload File'}</span>
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleFileUpload}
+                                            disabled={uploading}
+                                        />
+                                    </label>
+                                </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>

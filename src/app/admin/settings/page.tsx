@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
+import { Upload } from 'lucide-react';
+import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface SettingsData {
     logo_url: string;
@@ -44,7 +46,9 @@ export default function AdminSettingsPage() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const supabase = createSupabaseBrowserClient();
 
     useEffect(() => {
         fetchSettings();
@@ -61,6 +65,35 @@ export default function AdminSettingsPage() {
             console.error('Error fetching settings:', error);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `hero_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `settings/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setSettings(prev => ({ ...prev, hero_image_url: publicUrl }));
+        } catch (error) {
+            console.error('Error uploading hero image:', error);
+            alert('Error uploading image');
+        } finally {
+            setIsUploading(false);
         }
     };
 
@@ -177,15 +210,41 @@ export default function AdminSettingsPage() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Hero Image URL</label>
-                                    <input
-                                        type="text"
-                                        name="hero_image_url"
-                                        value={settings.hero_image_url}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="/images/_DSC0043.jpg"
-                                    />
+                                    <label className="block text-sm font-medium mb-2">Hero Image</label>
+                                    <div className="flex gap-4 items-start">
+                                        <div className="flex-1">
+                                            <input
+                                                type="text"
+                                                name="hero_image_url"
+                                                value={settings.hero_image_url}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300 mb-2"
+                                                placeholder="/images/_DSC0043.jpg"
+                                            />
+                                            <div className="mt-2">
+                                                <label className="relative cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 w-fit">
+                                                    <Upload size={16} />
+                                                    <span>{isUploading ? 'Uploading...' : 'Upload New Image'}</span>
+                                                    <input
+                                                        type="file"
+                                                        className="hidden"
+                                                        accept="image/*"
+                                                        onChange={handleHeroUpload}
+                                                        disabled={isUploading}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        {settings.hero_image_url && (
+                                            <div className="w-32 h-20 border border-gray-200 overflow-hidden bg-gray-50">
+                                                <img
+                                                    src={settings.hero_image_url}
+                                                    alt="Hero Preview"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
