@@ -261,7 +261,9 @@ export default function AdminSettingsPage() {
 
             {/* Content */}
             <main className="max-w-4xl mx-auto px-6 py-12">
-                <h2 className="font-serif text-3xl mb-8">Site Settings</h2>
+                <div className="flex justify-between items-center mb-8">
+                    <h2 className="font-serif text-3xl">Site Settings <span className="text-sm text-gray-400 font-sans ml-2">(v1.1)</span></h2>
+                </div>
 
                 {isLoading ? (
                     <p className="text-gray-500">Loading settings...</p>
