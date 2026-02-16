@@ -31,6 +31,9 @@ interface SettingsData {
     behind_camera_image_url: string;
     pricing_subtitle: string;
     pricing_title: string;
+    portfolio_image_1: string;
+    portfolio_image_2: string;
+    portfolio_image_3: string;
 }
 
 export default function AdminSettingsPage() {
@@ -59,6 +62,9 @@ export default function AdminSettingsPage() {
         behind_camera_image_url: '',
         pricing_subtitle: '',
         pricing_title: '',
+        portfolio_image_1: '',
+        portfolio_image_2: '',
+        portfolio_image_3: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -136,6 +142,35 @@ export default function AdminSettingsPage() {
             setSettings(prev => ({ ...prev, behind_camera_image_url: publicUrl }));
         } catch (error) {
             console.error('Error uploading behind camera image:', error);
+            alert('Error uploading image');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handlePortfolioUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `portfolio_${index}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `settings/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setSettings(prev => ({ ...prev, [`portfolio_image_${index}`]: publicUrl }));
+        } catch (error) {
+            console.error(`Error uploading portfolio image ${index}:`, error);
             alert('Error uploading image');
         } finally {
             setIsUploading(false);
@@ -309,6 +344,45 @@ export default function AdminSettingsPage() {
                                         placeholder="Stories Told Through My Lens"
                                     />
                                 </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                {[1, 2, 3].map((num) => (
+                                    <div key={num}>
+                                        <label className="block text-sm font-medium mb-2">Image {num}</label>
+                                        <div className="space-y-3">
+                                            <input
+                                                type="text"
+                                                name={`portfolio_image_${num}`}
+                                                value={(settings as any)[`portfolio_image_${num}`]}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="Image URL..."
+                                            />
+                                            <div className="relative">
+                                                <label className="cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center justify-center gap-2 w-full">
+                                                    <Upload size={16} />
+                                                    <span>Upload</span>
+                                                    <input
+                                                        type="file"
+                                                        className="hidden"
+                                                        accept="image/*"
+                                                        onChange={(e) => handlePortfolioUpload(e, num)}
+                                                        disabled={isUploading}
+                                                    />
+                                                </label>
+                                            </div>
+                                            {(settings as any)[`portfolio_image_${num}`] && (
+                                                <div className="aspect-[3/4] border border-gray-200 overflow-hidden bg-gray-50 relative">
+                                                    <img
+                                                        src={(settings as any)[`portfolio_image_${num}`]}
+                                                        alt={`Portfolio ${num}`}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

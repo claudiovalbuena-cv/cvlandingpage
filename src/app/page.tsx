@@ -22,7 +22,29 @@ export default async function Home() {
     try {
         services = await getServices();
         settings = await getSettings();
-        portfolio = await getPortfolio();
+        // portfolio = await getPortfolio(); // We are now using settings for portfolio
+
+        if (settings.portfolio_image_1) {
+            portfolio.push({
+                src: settings.portfolio_image_1,
+                alt: 'Portfolio 1',
+                span: 'col-span-1 row-span-1',
+            });
+        }
+        if (settings.portfolio_image_2) {
+            portfolio.push({
+                src: settings.portfolio_image_2,
+                alt: 'Portfolio 2',
+                span: 'col-span-1 row-span-2',
+            });
+        }
+        if (settings.portfolio_image_3) {
+            portfolio.push({
+                src: settings.portfolio_image_3,
+                alt: 'Portfolio 3',
+                span: 'col-span-1 row-span-1',
+            });
+        }
     } catch (error) {
         console.error('Error fetching data:', error);
     }

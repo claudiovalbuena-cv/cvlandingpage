@@ -19,7 +19,6 @@ export default function AdminHeader() {
     const navItems = [
         { name: 'Overview', href: '/admin', icon: LayoutDashboard },
         { name: 'Services', href: '/admin/services', icon: Briefcase },
-        { name: 'Portfolio', href: '/admin/portfolio', icon: ImageIcon },
         { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
         { name: 'Settings', href: '/admin/settings', icon: Settings },
     ];

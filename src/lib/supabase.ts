@@ -21,6 +21,9 @@ let mockSettings: Record<string, string> = {
     facebook: 'https://facebook.com/demo',
     social_style: 'minimal',
     site_name: 'Claudio Valbuena',
+    portfolio_image_1: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800',
+    portfolio_image_2: 'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=800',
+    portfolio_image_3: 'https://images.unsplash.com/photo-1469460340997-2f854421e72f?q=80&w=800',
 };
 
 // Helper functions
