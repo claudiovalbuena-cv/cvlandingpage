@@ -440,7 +440,7 @@ export default function AdminSettingsPage() {
                             <div className="mb-6">
                                 <h3 className="font-serif text-xl">Photo Gallery</h3>
                                 <p className="text-sm text-gray-500 mt-1">
-                                    Manage the 9 images displayed in the photo grid (below "Behind the Camera").
+                                    Manage the 9 images displayed in the photo grid (below &quot;Behind the Camera&quot;).
                                 </p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
