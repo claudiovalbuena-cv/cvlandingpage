@@ -7,9 +7,10 @@ interface PricingProps {
     services: Service[];
     subtitle?: string;
     title?: string;
+    unit?: string;
 }
 
-export default function Pricing({ services, subtitle, title }: PricingProps) {
+export default function Pricing({ services, subtitle, title, unit = '/ session' }: PricingProps) {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -91,7 +92,7 @@ export default function Pricing({ services, subtitle, title }: PricingProps) {
                             </p>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-3xl font-light">${service.price.toLocaleString()}</span>
-                                <span className="text-gray-500 text-sm">/ session</span>
+                                <span className="text-gray-500 text-sm">{unit}</span>
                             </div>
                         </div>
                     ))}

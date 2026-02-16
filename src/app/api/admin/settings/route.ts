@@ -78,6 +78,7 @@ export async function PUT(request: NextRequest) {
             'booking_button_text',
             'booking_success_title',
             'booking_success_message',
+            'pricing_unit',
         ];
 
         for (const key of settingKeys) {

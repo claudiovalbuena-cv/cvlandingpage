@@ -17,9 +17,44 @@ export default function AdminServicesPage() {
         category: '',
     });
 
+    const [pricingUnit, setPricingUnit] = useState('/ session');
+    const [isSavingUnit, setIsSavingUnit] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+
     useEffect(() => {
         fetchServices();
+        fetchSettings();
     }, []);
+
+    const fetchSettings = async () => {
+        try {
+            const response = await fetch('/api/admin/settings');
+            const data = await response.json();
+            if (data.settings?.pricing_unit) {
+                setPricingUnit(data.settings.pricing_unit);
+            }
+        } catch (error) {
+            console.error('Error fetching settings:', error);
+        }
+    };
+
+    const handleSaveUnit = async () => {
+        setIsSavingUnit(true);
+        try {
+            const response = await fetch('/api/admin/settings', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pricing_unit: pricingUnit }),
+            });
+            if (response.ok) {
+                alert('Unidad de precio guardada correctamente');
+            }
+        } catch (error) {
+            console.error('Error saving unit:', error);
+        } finally {
+            setIsSavingUnit(false);
+        }
+    };
 
     const fetchServices = async () => {
         try {
@@ -112,15 +147,49 @@ export default function AdminServicesPage() {
             <main className="max-w-7xl mx-auto px-6 py-12">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="font-serif text-3xl">Manage Services</h2>
-                    {!showNewForm && (
+                    <div className="flex gap-4">
                         <button
-                            onClick={() => setShowNewForm(true)}
-                            className="bg-accent hover:bg-accent-hover text-white px-6 py-3 font-medium transition-colors"
+                            onClick={() => setShowSettings(!showSettings)}
+                            className="px-4 py-2 border border-black hover:bg-black hover:text-white transition-all text-sm font-medium"
                         >
-                            + Add Service
+                            {showSettings ? 'Cerrar Ajustes' : 'Ajustes de Inversión'}
                         </button>
-                    )}
+                        {!showNewForm && (
+                            <button
+                                onClick={() => setShowNewForm(true)}
+                                className="bg-accent hover:bg-accent-hover text-white px-6 py-3 font-medium transition-colors"
+                            >
+                                + Add Service
+                            </button>
+                        )}
+                    </div>
                 </div>
+
+                {/* Settings Panel */}
+                {showSettings && (
+                    <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm mb-12 space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Unidad de Precio (ej: / sesión)</label>
+                                <input
+                                    type="text"
+                                    value={pricingUnit}
+                                    onChange={(e) => setPricingUnit(e.target.value)}
+                                    className="w-full px-4 py-3 border border-gray-200 focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                />
+                            </div>
+                            <div>
+                                <button
+                                    onClick={handleSaveUnit}
+                                    disabled={isSavingUnit}
+                                    className="bg-black text-white px-8 py-3.5 hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium"
+                                >
+                                    {isSavingUnit ? 'Guardando...' : 'Guardar Unidad'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Form */}
                 {showNewForm && (

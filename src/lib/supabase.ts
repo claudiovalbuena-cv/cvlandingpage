@@ -83,6 +83,7 @@ let mockSettings: Record<string, string> = {
     booking_button_text: 'Solicitar Reserva',
     booking_success_title: '¡Gracias!',
     booking_success_message: 'Tu solicitud de reserva ha sido enviada. Me pondré en contacto contigo pronto.',
+    pricing_unit: '/ sesión',
 };
 
 // Helper functions
