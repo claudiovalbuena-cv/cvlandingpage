@@ -74,6 +74,15 @@ let mockSettings: Record<string, string> = {
     // CTA Defaults
     cta_title: 'Every Moment Deserves to<br />Be Captured Beautifully.',
     cta_button_text: 'Book Your Session',
+
+    // Booking Form Defaults
+    booking_subtitle: 'RESERVA AHORA',
+    booking_title: 'Reserva tu Sesión',
+    booking_description: 'Completa el siguiente formulario y me pondré en contacto contigo en menos de 24 horas para confirmar tu sesión.',
+    booking_date_label: 'Fecha Preferida *',
+    booking_button_text: 'Solicitar Reserva',
+    booking_success_title: '¡Gracias!',
+    booking_success_message: 'Tu solicitud de reserva ha sido enviada. Me pondré en contacto contigo pronto.',
 };
 
 // Helper functions

@@ -115,7 +115,16 @@ export default async function Home() {
                 subtitle={settings.pricing_subtitle}
                 title={settings.pricing_title}
             />
-            <BookingForm services={services} />
+            <BookingForm
+                services={services}
+                subtitle={settings.booking_subtitle}
+                title={settings.booking_title}
+                description={settings.booking_description}
+                dateLabel={settings.booking_date_label}
+                buttonText={settings.booking_button_text}
+                successTitle={settings.booking_success_title}
+                successMessage={settings.booking_success_message}
+            />
             <Footer
                 settings={settings}
             />

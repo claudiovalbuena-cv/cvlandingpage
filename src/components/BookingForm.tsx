@@ -6,11 +6,29 @@ import { format } from 'date-fns';
 import 'react-day-picker/dist/style.css';
 import type { Service } from '@/types';
 
+import { es } from 'date-fns/locale';
+
 interface BookingFormProps {
     services: Service[];
+    subtitle?: string;
+    title?: string;
+    description?: string;
+    dateLabel?: string;
+    buttonText?: string;
+    successTitle?: string;
+    successMessage?: string;
 }
 
-export default function BookingForm({ services }: BookingFormProps) {
+export default function BookingForm({
+    services,
+    subtitle = 'RESERVA AHORA',
+    title = 'Reserva tu Sesión',
+    description = 'Completa el siguiente formulario y me pondré en contacto contigo en menos de 24 horas para confirmar tu sesión.',
+    dateLabel = 'Fecha Preferida *',
+    buttonText = 'Solicitar Reserva',
+    successTitle = '¡Gracias!',
+    successMessage = 'Tu solicitud de reserva ha sido enviada. Me pondré en contacto contigo pronto.',
+}: BookingFormProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,7 +70,7 @@ export default function BookingForm({ services }: BookingFormProps) {
         e.preventDefault();
 
         if (!selectedDate) {
-            alert('Please select a preferred date');
+            alert('Por favor selecciona una fecha preferida');
             return;
         }
 
@@ -102,30 +120,30 @@ export default function BookingForm({ services }: BookingFormProps) {
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
                     <span className="animate-on-scroll text-accent text-sm tracking-widest uppercase mb-4 block">
-                        Book Now
+                        {subtitle}
                     </span>
                     <h2 className="animate-on-scroll delay-100 font-serif text-4xl md:text-5xl mb-4">
-                        Reserve Your Session
+                        {title}
                     </h2>
                     <p className="animate-on-scroll delay-200 text-gray-600 max-w-xl mx-auto">
-                        Fill out the form below and I&apos;ll get back to you within 24 hours to confirm your booking.
+                        {description}
                     </p>
                 </div>
 
                 {submitStatus === 'success' ? (
                     <div className="animate-on-scroll bg-green-50 border border-green-200 p-8 text-center">
-                        <h3 className="font-serif text-2xl text-green-800 mb-2">Thank You!</h3>
+                        <h3 className="font-serif text-2xl text-green-800 mb-2">{successTitle}</h3>
                         <p className="text-green-700">
-                            Your booking request has been submitted. I&apos;ll be in touch soon.
+                            {successMessage}
                         </p>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8">
                         {/* Form Fields */}
-                        <div className="animate-on-scroll space-y-6">
+                        <div className="animate-on-scroll space-y-6 text-left">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium mb-2">
-                                    Full Name *
+                                    Nombre Completo *
                                 </label>
                                 <input
                                     type="text"
@@ -134,14 +152,14 @@ export default function BookingForm({ services }: BookingFormProps) {
                                     required
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors"
-                                    placeholder="Your name"
+                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors outline-none"
+                                    placeholder="Tu nombre"
                                 />
                             </div>
 
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium mb-2">
-                                    Email Address *
+                                    Correo Electrónico *
                                 </label>
                                 <input
                                     type="email"
@@ -150,14 +168,14 @@ export default function BookingForm({ services }: BookingFormProps) {
                                     required
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors"
-                                    placeholder="your@email.com"
+                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors outline-none"
+                                    placeholder="tu@email.com"
                                 />
                             </div>
 
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                                    Phone Number
+                                    Número de Teléfono
                                 </label>
                                 <input
                                     type="tel"
@@ -165,23 +183,23 @@ export default function BookingForm({ services }: BookingFormProps) {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors"
+                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors outline-none"
                                     placeholder="+1 (555) 123-4567"
                                 />
                             </div>
 
                             <div>
                                 <label htmlFor="service_id" className="block text-sm font-medium mb-2">
-                                    Service Type
+                                    Tipo de Servicio
                                 </label>
                                 <select
                                     id="service_id"
                                     name="service_id"
                                     value={formData.service_id}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors bg-white"
+                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors bg-white outline-none"
                                 >
-                                    <option value="">Select a service...</option>
+                                    <option value="">Selecciona un servicio...</option>
                                     {services.map((service) => (
                                         <option key={service.id} value={service.id}>
                                             {service.name} - ${service.price}
@@ -192,7 +210,7 @@ export default function BookingForm({ services }: BookingFormProps) {
 
                             <div>
                                 <label htmlFor="message" className="block text-sm font-medium mb-2">
-                                    Message
+                                    Mensaje
                                 </label>
                                 <textarea
                                     id="message"
@@ -200,49 +218,54 @@ export default function BookingForm({ services }: BookingFormProps) {
                                     rows={4}
                                     value={formData.message}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors resize-none"
-                                    placeholder="Tell me about your vision..."
+                                    className="w-full px-4 py-3 border border-gray-300 focus:border-accent transition-colors resize-none outline-none"
+                                    placeholder="Cuéntame sobre tu visión..."
                                 />
                             </div>
                         </div>
 
                         {/* Calendar */}
-                        <div className="animate-on-scroll delay-200">
+                        <div className="animate-on-scroll delay-200 text-left">
                             <label className="block text-sm font-medium mb-4">
-                                Preferred Date *
+                                {dateLabel}
                             </label>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center bg-gray-50 p-4 border border-gray-100 rounded-lg">
                                 <DayPicker
                                     mode="single"
                                     selected={selectedDate}
                                     onSelect={setSelectedDate}
                                     disabled={disabledDays}
                                     showOutsideDays
+                                    locale={es}
                                 />
                             </div>
                             {selectedDate && (
                                 <p className="text-center mt-4 text-sm text-gray-600">
-                                    Selected: <span className="font-medium text-black">{format(selectedDate, 'MMMM d, yyyy')}</span>
+                                    Seleccionado: <span className="font-medium text-black">{format(selectedDate, "d 'de' MMMM, yyyy", { locale: es })}</span>
                                 </p>
                             )}
 
                             {submitStatus === 'error' && (
                                 <p className="text-red-600 text-sm mt-4 text-center">
-                                    There was an error submitting your booking. Please try again.
+                                    Hubo un error al enviar tu reserva. Por favor intenta de nuevo.
                                 </p>
                             )}
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full mt-8 bg-accent hover:bg-accent-hover text-white py-4 font-medium tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full mt-8 bg-accent hover:bg-accent-hover text-white py-4 font-medium tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-accent/20"
                             >
-                                {isSubmitting ? 'Submitting...' : 'Request Booking'}
+                                {isSubmitting ? 'Enviando...' : buttonText}
                             </button>
                         </div>
                     </form>
                 )}
             </div>
         </section>
+    );
+}
+            </div >
+        </section >
     );
 }

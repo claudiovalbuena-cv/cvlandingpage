@@ -71,6 +71,13 @@ export async function PUT(request: NextRequest) {
             'testimonial_5_text', 'testimonial_5_author',
             'testimonial_6_text', 'testimonial_6_author',
             'cta_title', 'cta_button_text',
+            'booking_subtitle',
+            'booking_title',
+            'booking_description',
+            'booking_date_label',
+            'booking_button_text',
+            'booking_success_title',
+            'booking_success_message',
         ];
 
         for (const key of settingKeys) {
