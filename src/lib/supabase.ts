@@ -30,6 +30,9 @@ let mockSettings: Record<string, string> = {
     gallery_image_4: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600',
     gallery_image_5: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600',
     gallery_image_6: 'https://images.unsplash.com/photo-1504703395950-b89145a5425b?q=80&w=600',
+    gallery_image_7: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=600',
+    gallery_image_8: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600',
+    gallery_image_9: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
 };
 
 // Helper functions

@@ -40,6 +40,9 @@ interface SettingsData {
     gallery_image_4: string;
     gallery_image_5: string;
     gallery_image_6: string;
+    gallery_image_7: string;
+    gallery_image_8: string;
+    gallery_image_9: string;
 }
 
 export default function AdminSettingsPage() {
@@ -77,6 +80,9 @@ export default function AdminSettingsPage() {
         gallery_image_4: '',
         gallery_image_5: '',
         gallery_image_6: '',
+        gallery_image_7: '',
+        gallery_image_8: '',
+        gallery_image_9: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -375,332 +381,327 @@ export default function AdminSettingsPage() {
                             <h3 className="font-serif text-xl mb-6">Portfolio Section</h3>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Portfolio Title</label>
-                                    <input
-                                        type="text"
-                                        name="portfolio_title"
-                                        value={settings.portfolio_title}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="Stories Told Through My Lens"
-                                    />
+                                    <div className="mb-6">
+                                        <h3 className="font-serif text-xl">Photo Gallery</h3>
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            Manage the 9 images displayed in the photo grid (below "Behind the Camera").
+                                        </p>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                                            <div key={num}>
+                                                <label className="block text-sm font-medium mb-2">Image {num}</label>
+                                                <div className="space-y-3">
+                                                    <input
+                                                        type="text"
+                                                        name={`portfolio_image_${num}`}
+                                                        value={(settings as any)[`portfolio_image_${num}`]}
+                                                        onChange={handleChange}
+                                                        className="w-full px-4 py-3 border border-gray-300"
+                                                        placeholder="Image URL..."
+                                                    />
+                                                    <div className="relative">
+                                                        <label className="cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center justify-center gap-2 w-full">
+                                                            <Upload size={16} />
+                                                            <span>Upload</span>
+                                                            <input
+                                                                type="file"
+                                                                className="hidden"
+                                                                accept="image/*"
+                                                                onChange={(e) => handlePortfolioUpload(e, num)}
+                                                                disabled={isUploading}
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                    {(settings as any)[`portfolio_image_${num}`] && (
+                                                        <div className="aspect-[3/4] border border-gray-200 overflow-hidden bg-gray-50 relative">
+                                                            <img
+                                                                src={(settings as any)[`portfolio_image_${num}`]}
+                                                                alt={`Portfolio ${num}`}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                                {[1, 2, 3].map((num) => (
-                                    <div key={num}>
-                                        <label className="block text-sm font-medium mb-2">Image {num}</label>
-                                        <div className="space-y-3">
+
+                                {/* About Section */}
+                                <div className="bg-white border border-gray-200 p-6">
+                                    <h3 className="font-serif text-xl mb-6">About Section</h3>
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">About Title</label>
                                             <input
                                                 type="text"
-                                                name={`portfolio_image_${num}`}
-                                                value={(settings as any)[`portfolio_image_${num}`]}
+                                                name="about_title"
+                                                value={settings.about_title}
                                                 onChange={handleChange}
                                                 className="w-full px-4 py-3 border border-gray-300"
-                                                placeholder="Image URL..."
+                                                placeholder="My Lens. My Language."
                                             />
-                                            <div className="relative">
-                                                <label className="cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center justify-center gap-2 w-full">
-                                                    <Upload size={16} />
-                                                    <span>Upload</span>
-                                                    <input
-                                                        type="file"
-                                                        className="hidden"
-                                                        accept="image/*"
-                                                        onChange={(e) => handlePortfolioUpload(e, num)}
-                                                        disabled={isUploading}
-                                                    />
-                                                </label>
-                                            </div>
-                                            {(settings as any)[`portfolio_image_${num}`] && (
-                                                <div className="aspect-[3/4] border border-gray-200 overflow-hidden bg-gray-50 relative">
-                                                    <img
-                                                        src={(settings as any)[`portfolio_image_${num}`]}
-                                                        alt={`Portfolio ${num}`}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                </div>
-                                            )}
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* About Section */}
-                        <div className="bg-white border border-gray-200 p-6">
-                            <h3 className="font-serif text-xl mb-6">About Section</h3>
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">About Title</label>
-                                    <input
-                                        type="text"
-                                        name="about_title"
-                                        value={settings.about_title}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="My Lens. My Language."
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">About Description</label>
-                                    <textarea
-                                        name="about_description"
-                                        value={settings.about_description}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        rows={4}
-                                        placeholder="For me, photography isn't about clicking a shutter..."
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Behind the Camera Section */}
-                        <div className="bg-white border border-gray-200 p-6">
-                            <h3 className="font-serif text-xl mb-6">Behind the Camera</h3>
-                            <div className="space-y-6">
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Subtitle</label>
-                                        <input
-                                            type="text"
-                                            name="behind_camera_subtitle"
-                                            value={settings.behind_camera_subtitle}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300"
-                                            placeholder="About me"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Title</label>
-                                        <input
-                                            type="text"
-                                            name="behind_camera_title"
-                                            value={settings.behind_camera_title}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300"
-                                            placeholder="Behind the Camera"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Description 1</label>
-                                        <textarea
-                                            name="behind_camera_description1"
-                                            value={settings.behind_camera_description1}
-                                            onChange={handleChange}
-                                            rows={3}
-                                            className="w-full px-4 py-3 border border-gray-300"
-                                            placeholder="First paragraph..."
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Description 2</label>
-                                        <textarea
-                                            name="behind_camera_description2"
-                                            value={settings.behind_camera_description2}
-                                            onChange={handleChange}
-                                            rows={3}
-                                            className="w-full px-4 py-3 border border-gray-300"
-                                            placeholder="Second paragraph..."
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Image</label>
-                                    <div className="flex gap-4 items-start">
-                                        <div className="flex-1">
-                                            <input
-                                                type="text"
-                                                name="behind_camera_image_url"
-                                                value={settings.behind_camera_image_url}
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">About Description</label>
+                                            <textarea
+                                                name="about_description"
+                                                value={settings.about_description}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 border border-gray-300 mb-2"
-                                                placeholder="Image URL..."
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                rows={4}
+                                                placeholder="For me, photography isn't about clicking a shutter..."
                                             />
-                                            <div className="mt-2">
-                                                <label className="relative cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 w-fit">
-                                                    <Upload size={16} />
-                                                    <span>{isUploading ? 'Uploading...' : 'Upload New Image'}</span>
-                                                    <input
-                                                        type="file"
-                                                        className="hidden"
-                                                        accept="image/*"
-                                                        onChange={handleBehindCameraUpload}
-                                                        disabled={isUploading}
-                                                    />
-                                                </label>
-                                            </div>
                                         </div>
-                                        {settings.behind_camera_image_url && (
-                                            <div className="w-32 h-20 border border-gray-200 overflow-hidden bg-gray-50">
-                                                <img
-                                                    src={settings.behind_camera_image_url}
-                                                    alt="Behind Preview"
-                                                    className="w-full h-full object-cover"
+                                    </div>
+                                </div>
+
+                                {/* Behind the Camera Section */}
+                                <div className="bg-white border border-gray-200 p-6">
+                                    <h3 className="font-serif text-xl mb-6">Behind the Camera</h3>
+                                    <div className="space-y-6">
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">Subtitle</label>
+                                                <input
+                                                    type="text"
+                                                    name="behind_camera_subtitle"
+                                                    value={settings.behind_camera_subtitle}
+                                                    onChange={handleChange}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="About me"
                                                 />
                                             </div>
-                                        )}
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">Title</label>
+                                                <input
+                                                    type="text"
+                                                    name="behind_camera_title"
+                                                    value={settings.behind_camera_title}
+                                                    onChange={handleChange}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="Behind the Camera"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">Description 1</label>
+                                                <textarea
+                                                    name="behind_camera_description1"
+                                                    value={settings.behind_camera_description1}
+                                                    onChange={handleChange}
+                                                    rows={3}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="First paragraph..."
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">Description 2</label>
+                                                <textarea
+                                                    name="behind_camera_description2"
+                                                    value={settings.behind_camera_description2}
+                                                    onChange={handleChange}
+                                                    rows={3}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="Second paragraph..."
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Image</label>
+                                            <div className="flex gap-4 items-start">
+                                                <div className="flex-1">
+                                                    <input
+                                                        type="text"
+                                                        name="behind_camera_image_url"
+                                                        value={settings.behind_camera_image_url}
+                                                        onChange={handleChange}
+                                                        className="w-full px-4 py-3 border border-gray-300 mb-2"
+                                                        placeholder="Image URL..."
+                                                    />
+                                                    <div className="mt-2">
+                                                        <label className="relative cursor-pointer bg-white border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 w-fit">
+                                                            <Upload size={16} />
+                                                            <span>{isUploading ? 'Uploading...' : 'Upload New Image'}</span>
+                                                            <input
+                                                                type="file"
+                                                                className="hidden"
+                                                                accept="image/*"
+                                                                onChange={handleBehindCameraUpload}
+                                                                disabled={isUploading}
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {settings.behind_camera_image_url && (
+                                                    <div className="w-32 h-20 border border-gray-200 overflow-hidden bg-gray-50">
+                                                        <img
+                                                            src={settings.behind_camera_image_url}
+                                                            alt="Behind Preview"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* Pricing Section */}
-                        <div className="bg-white border border-gray-200 p-6">
-                            <h3 className="font-serif text-xl mb-6">Pricing Section</h3>
-                            <div className="grid grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Subtitle</label>
-                                    <input
-                                        type="text"
-                                        name="pricing_subtitle"
-                                        value={settings.pricing_subtitle}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="Investment"
-                                    />
+                                {/* Pricing Section */}
+                                <div className="bg-white border border-gray-200 p-6">
+                                    <h3 className="font-serif text-xl mb-6">Pricing Section</h3>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Subtitle</label>
+                                            <input
+                                                type="text"
+                                                name="pricing_subtitle"
+                                                value={settings.pricing_subtitle}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="Investment"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Title</label>
+                                            <input
+                                                type="text"
+                                                name="pricing_title"
+                                                value={settings.pricing_title}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="Photography Packages"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Title</label>
-                                    <input
-                                        type="text"
-                                        name="pricing_title"
-                                        value={settings.pricing_title}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="Photography Packages"
-                                    />
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Contact Information */}
-                        <div className="bg-white border border-gray-200 p-6">
-                            <h3 className="font-serif text-xl mb-6">Contact Information</h3>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Email</label>
-                                    <input
-                                        type="email"
-                                        name="contact_email"
-                                        value={settings.contact_email}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="hello@example.com"
-                                    />
+                                {/* Contact Information */}
+                                <div className="bg-white border border-gray-200 p-6">
+                                    <h3 className="font-serif text-xl mb-6">Contact Information</h3>
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Email</label>
+                                            <input
+                                                type="email"
+                                                name="contact_email"
+                                                value={settings.contact_email}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="hello@example.com"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Phone</label>
+                                            <input
+                                                type="tel"
+                                                name="phone"
+                                                value={settings.phone}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="+1 (555) 123-4567"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Phone</label>
-                                    <input
-                                        type="tel"
-                                        name="phone"
-                                        value={settings.phone}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="+1 (555) 123-4567"
-                                    />
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Social Media */}
-                        <div className="bg-white border border-gray-200 p-6">
-                            <h3 className="font-serif text-xl mb-6">Social Media Links</h3>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Instagram</label>
-                                    <input
-                                        type="url"
-                                        name="instagram"
-                                        value={settings.instagram}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="https://instagram.com/username"
-                                    />
+                                {/* Social Media */}
+                                <div className="bg-white border border-gray-200 p-6">
+                                    <h3 className="font-serif text-xl mb-6">Social Media Links</h3>
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Instagram</label>
+                                            <input
+                                                type="url"
+                                                name="instagram"
+                                                value={settings.instagram}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="https://instagram.com/username"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Pinterest</label>
+                                            <input
+                                                type="url"
+                                                name="pinterest"
+                                                value={settings.pinterest}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="https://pinterest.com/username"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">LinkedIn</label>
+                                            <input
+                                                type="url"
+                                                name="linkedin"
+                                                value={settings.linkedin}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="https://linkedin.com/in/username"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Behance</label>
+                                            <input
+                                                type="url"
+                                                name="behance"
+                                                value={settings.behance}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="https://behance.net/username"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">Facebook</label>
+                                            <input
+                                                type="url"
+                                                name="facebook"
+                                                value={settings.facebook}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300"
+                                                placeholder="https://facebook.com/username"
+                                            />
+                                        </div>
+                                        <div className="md:col-span-2">
+                                            <label className="block text-sm font-medium mb-2">Social Icons Style</label>
+                                            <select
+                                                name="social_style"
+                                                value={settings.social_style || 'minimal'}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 border border-gray-300 bg-white"
+                                            >
+                                                <option value="text">Text Only</option>
+                                                <option value="minimal">Minimalist (Outlined)</option>
+                                                <option value="filled">Filled</option>
+                                                <option value="circle">Circle Container</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Pinterest</label>
-                                    <input
-                                        type="url"
-                                        name="pinterest"
-                                        value={settings.pinterest}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="https://pinterest.com/username"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">LinkedIn</label>
-                                    <input
-                                        type="url"
-                                        name="linkedin"
-                                        value={settings.linkedin}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="https://linkedin.com/in/username"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Behance</label>
-                                    <input
-                                        type="url"
-                                        name="behance"
-                                        value={settings.behance}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="https://behance.net/username"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Facebook</label>
-                                    <input
-                                        type="url"
-                                        name="facebook"
-                                        value={settings.facebook}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300"
-                                        placeholder="https://facebook.com/username"
-                                    />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium mb-2">Social Icons Style</label>
-                                    <select
-                                        name="social_style"
-                                        value={settings.social_style || 'minimal'}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300 bg-white"
+
+                                {/* Submit */}
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        type="submit"
+                                        disabled={isSaving}
+                                        className="bg-accent hover:bg-accent-hover text-white px-8 py-3 font-medium transition-colors disabled:opacity-50"
                                     >
-                                        <option value="text">Text Only</option>
-                                        <option value="minimal">Minimalist (Outlined)</option>
-                                        <option value="filled">Filled</option>
-                                        <option value="circle">Circle Container</option>
-                                    </select>
+                                        {isSaving ? 'Saving...' : 'Save Settings'}
+                                    </button>
+                                    {saveStatus === 'success' && (
+                                        <span className="text-green-600">Settings saved successfully!</span>
+                                    )}
+                                    {saveStatus === 'error' && (
+                                        <span className="text-red-600">Error saving settings</span>
+                                    )}
                                 </div>
-                            </div>
-                        </div>
-
-                        {/* Submit */}
-                        <div className="flex items-center gap-4">
-                            <button
-                                type="submit"
-                                disabled={isSaving}
-                                className="bg-accent hover:bg-accent-hover text-white px-8 py-3 font-medium transition-colors disabled:opacity-50"
-                            >
-                                {isSaving ? 'Saving...' : 'Save Settings'}
-                            </button>
-                            {saveStatus === 'success' && (
-                                <span className="text-green-600">Settings saved successfully!</span>
-                            )}
-                            {saveStatus === 'error' && (
-                                <span className="text-red-600">Error saving settings</span>
-                            )}
-                        </div>
-                    </form>
+                            </form>
                 )}
-            </main>
-        </div>
-    );
+                        </main>
+                    </div>
+                );
 }

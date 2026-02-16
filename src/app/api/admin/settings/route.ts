@@ -55,6 +55,9 @@ export async function PUT(request: NextRequest) {
             'gallery_image_4',
             'gallery_image_5',
             'gallery_image_6',
+            'gallery_image_7',
+            'gallery_image_8',
+            'gallery_image_9',
         ];
 
         for (const key of settingKeys) {

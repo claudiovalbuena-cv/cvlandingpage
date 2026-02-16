@@ -50,7 +50,7 @@ export default async function Home() {
     }
 
     // Build PhotoGrid items from settings
-    const photoGridItems = [1, 2, 3, 4, 5, 6].map(num => {
+    const photoGridItems = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => {
         const url = settings[`gallery_image_${num}`];
         return url ? { src: url, alt: `Gallery Image ${num}` } : null;
     }).filter(item => item !== null);
