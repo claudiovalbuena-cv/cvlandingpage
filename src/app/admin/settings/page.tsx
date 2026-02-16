@@ -855,6 +855,11 @@ export default function AdminSettingsPage() {
                     </form>
                 )}
             </main>
+
+            {/* Debug Indicator */}
+            <div className="fixed bottom-2 right-2 text-xs text-gray-500 bg-black/80 px-2 py-1 rounded z-50 pointer-events-none">
+                Mode: {process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('placeholder') ? 'MOCK' : 'LIVE'}
+            </div>
         </div>
     );
 }
