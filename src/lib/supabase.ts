@@ -70,6 +70,10 @@ let mockSettings: Record<string, string> = {
     testimonial_5_author: '',
     testimonial_6_text: '',
     testimonial_6_author: '',
+
+    // CTA Defaults
+    cta_title: 'Every Moment Deserves to<br />Be Captured Beautifully.',
+    cta_button_text: 'Book Your Session',
 };
 
 // Helper functions

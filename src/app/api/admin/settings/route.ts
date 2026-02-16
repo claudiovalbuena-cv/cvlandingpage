@@ -70,6 +70,7 @@ export async function PUT(request: NextRequest) {
             'testimonial_4_text', 'testimonial_4_author',
             'testimonial_5_text', 'testimonial_5_author',
             'testimonial_6_text', 'testimonial_6_author',
+            'cta_title', 'cta_button_text',
         ];
 
         for (const key of settingKeys) {

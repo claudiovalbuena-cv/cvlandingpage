@@ -106,7 +106,10 @@ export default async function Home() {
                 subtitle={settings.testimonials_subtitle}
                 testimonials={testimonialsItems}
             />
-            <CTA />
+            <CTA
+                title={settings.cta_title}
+                buttonText={settings.cta_button_text}
+            />
             <Pricing
                 services={services}
                 subtitle={settings.pricing_subtitle}
