@@ -47,6 +47,50 @@ export default function AdminBookingsPage() {
         }
     };
 
+    const fetchBookings = async () => {
+        try {
+            const response = await fetch('/api/admin/bookings');
+            const data = await response.json();
+            setBookings(data.bookings || []);
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const updateStatus = async (id: string, status: 'pending' | 'confirmed' | 'cancelled') => {
+        try {
+            const response = await fetch(`/api/admin/bookings/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status }),
+            });
+
+            if (response.ok) {
+                fetchBookings();
+            }
+        } catch (error) {
+            console.error('Error updating booking:', error);
+        }
+    };
+
+    const deleteBooking = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this booking?')) return;
+
+        try {
+            const response = await fetch(`/api/admin/bookings/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setBookings(prev => prev.filter(b => b.id !== id));
+            }
+        } catch (error) {
+            console.error('Error deleting booking:', error);
+        }
+    };
+
     const handleSaveSettings = async () => {
         setIsSavingSettings(true);
         try {

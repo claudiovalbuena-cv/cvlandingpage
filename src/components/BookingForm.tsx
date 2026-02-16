@@ -265,7 +265,3 @@ export default function BookingForm({
         </section>
     );
 }
-            </div >
-        </section >
-    );
-}
