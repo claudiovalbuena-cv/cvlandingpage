@@ -11,7 +11,7 @@ import BookingForm from '@/components/BookingForm';
 import Footer from '@/components/Footer';
 import { getServices, getSettings } from '@/lib/supabase';
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 0; // Disable cache for immediate updates
 
 export default async function Home() {
     // Fetch data from Supabase

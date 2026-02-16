@@ -111,10 +111,15 @@ export async function getSettings(): Promise<Record<string, string>> {
         return {};
     }
 
-    return data.reduce((acc: Record<string, string>, item: { key: string; value: string }) => {
+    const dbSettings = data.reduce((acc: Record<string, string>, item: { key: string; value: string }) => {
         acc[item.key] = item.value;
         return acc;
     }, {});
+
+    // Merge defaults (mockSettings) with actual DB settings
+    // This ensures that if a key is missing in DB, we fall back to default
+    // And if it exists in DB, we use the DB value.
+    return { ...mockSettings, ...dbSettings };
 }
 
 export async function createBooking(booking: {
