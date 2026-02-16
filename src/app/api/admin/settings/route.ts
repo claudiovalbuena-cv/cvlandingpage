@@ -62,6 +62,14 @@ export async function PUT(request: NextRequest) {
             'service_2_icon', 'service_2_title', 'service_2_description', 'service_2_url',
             'service_3_icon', 'service_3_title', 'service_3_description', 'service_3_url',
             'service_4_icon', 'service_4_title', 'service_4_description', 'service_4_url',
+            'testimonials_title',
+            'testimonials_subtitle',
+            'testimonial_1_text', 'testimonial_1_author',
+            'testimonial_2_text', 'testimonial_2_author',
+            'testimonial_3_text', 'testimonial_3_author',
+            'testimonial_4_text', 'testimonial_4_author',
+            'testimonial_5_text', 'testimonial_5_author',
+            'testimonial_6_text', 'testimonial_6_author',
         ];
 
         for (const key of settingKeys) {

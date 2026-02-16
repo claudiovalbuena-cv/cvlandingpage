@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
-import { LogOut, LayoutDashboard, Briefcase, Calendar, Settings, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { LogOut, LayoutDashboard, Briefcase, Calendar, Settings, ArrowLeft, Image as ImageIcon, Star } from 'lucide-react';
 
 export default function AdminHeader() {
     const router = useRouter();
@@ -20,6 +20,7 @@ export default function AdminHeader() {
         { name: 'Overview', href: '/admin', icon: LayoutDashboard },
         { name: 'Services', href: '/admin/services', icon: Briefcase },
         { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
+        { name: 'Testimoniales', href: '/admin/testimonials', icon: Star },
         { name: 'Settings', href: '/admin/settings', icon: Settings },
     ];
 

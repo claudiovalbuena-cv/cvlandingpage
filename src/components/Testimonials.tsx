@@ -3,24 +3,29 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const testimonials = [
-    {
-        name: 'Miriam & Paul',
-        text: 'Cada foto cuenta una historia. Nuestro álbum de bodas todavía nos emociona.',
-    },
-    {
-        name: 'Brand Momently',
-        text: 'The photos helped our brand shine. Stunning work that exceeded expectations.',
-    },
-    {
-        name: 'Sarah Johnson',
-        text: 'Incredible talent! The portraits captured my personality perfectly.',
-    },
-];
+interface TestimonialItem {
+    name: string;
+    text: string;
+}
 
-export default function Testimonials() {
+interface TestimonialsProps {
+    title?: string;
+    subtitle?: string;
+    testimonials?: TestimonialItem[];
+}
+
+export default function Testimonials({
+    title = 'Memories That Speak for Themselves',
+    subtitle = 'CLIENT TESTIMONIALS',
+    testimonials = []
+}: TestimonialsProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const sectionRef = useRef<HTMLElement>(null);
+
+    // Filter out empty testimonials
+    const activeTestimonials = testimonials.length > 0
+        ? testimonials.filter(t => t.text.trim() !== '')
+        : [];
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -41,17 +46,21 @@ export default function Testimonials() {
     }, []);
 
     const nextTestimonial = () => {
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        if (activeTestimonials.length === 0) return;
+        setCurrentIndex((prev) => (prev + 1) % activeTestimonials.length);
     };
 
     const prevTestimonial = () => {
-        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        if (activeTestimonials.length === 0) return;
+        setCurrentIndex((prev) => (prev - 1 + activeTestimonials.length) % activeTestimonials.length);
     };
+
+    if (activeTestimonials.length === 0) return null;
 
     return (
         <section
             ref={sectionRef}
-            className="bg-[#F5E6D3] section-padding"
+            className="bg-white section-padding"
         >
             <div className="max-w-6xl mx-auto">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -75,19 +84,25 @@ export default function Testimonials() {
                         </div>
 
                         {/* Current Testimonial */}
-                        <div className="transition-opacity duration-500">
-                            <p className="text-lg mb-4 italic">&ldquo;{testimonials[currentIndex].text}&rdquo;</p>
-                            <p className="font-medium">{testimonials[currentIndex].name}</p>
+                        <div className="transition-opacity duration-500 min-h-[150px]">
+                            <p className="text-xl mb-6 italic leading-relaxed">&ldquo;{activeTestimonials[currentIndex].text}&rdquo;</p>
+                            <p className="font-bold tracking-wide uppercase text-sm">{activeTestimonials[currentIndex].name}</p>
                         </div>
                     </div>
 
                     {/* Title */}
                     <div className="animate-on-scroll delay-200">
-                        <span className="text-sm tracking-widest uppercase text-gray-600 mb-4 block">
-                            Client Testimonials
+                        <span className="text-sm tracking-[0.2em] uppercase text-gray-400 mb-6 block font-medium">
+                            {subtitle}
                         </span>
-                        <h2 className="font-serif text-4xl md:text-5xl leading-tight">
-                            Memories That<br />Speak for Themselves
+                        <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.1]">
+                            {title.split('<br />').map((line, i) => (
+                                <span key={i}>
+                                    {line}
+                                    {i < title.split('<br />').length - 1 && <br />}
+                                </span>
+                            ))}
+                            {title.indexOf('<br />') === -1 && title}
                         </h2>
                     </div>
                 </div>

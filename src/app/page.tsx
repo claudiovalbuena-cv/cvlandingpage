@@ -63,6 +63,11 @@ export default async function Home() {
         url: settings[`service_${num}_url`] || '',
     })).filter(item => item.title !== ''); // Only show if title is present
 
+    const testimonialsItems = [1, 2, 3, 4, 5, 6].map(num => ({
+        text: settings[`testimonial_${num}_text`] || '',
+        name: settings[`testimonial_${num}_author`] || '',
+    }));
+
     return (
         <main>
             <Header
@@ -96,7 +101,11 @@ export default async function Home() {
 
 
             <PhotoGrid items={photoGridItems} />
-            <Testimonials />
+            <Testimonials
+                title={settings.testimonials_title}
+                subtitle={settings.testimonials_subtitle}
+                testimonials={testimonialsItems}
+            />
             <CTA />
             <Pricing
                 services={services}

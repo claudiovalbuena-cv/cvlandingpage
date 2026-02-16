@@ -54,6 +54,22 @@ let mockSettings: Record<string, string> = {
     service_4_title: 'Events',
     service_4_description: 'Cultural, vibrant, candid',
     service_4_url: '',
+
+    // Testimonials Defaults
+    testimonials_title: 'Memories That Speak for Themselves',
+    testimonials_subtitle: 'CLIENT TESTIMONIALS',
+    testimonial_1_text: 'Cada foto cuenta una historia. Nuestro álbum de bodas todavía nos emociona.',
+    testimonial_1_author: 'Miriam & Paul',
+    testimonial_2_text: 'The photos helped our brand shine. Stunning work that exceeded expectations.',
+    testimonial_2_author: 'Brand Momently',
+    testimonial_3_text: 'Incredible talent! The portraits captured my personality perfectly.',
+    testimonial_3_author: 'Sarah Johnson',
+    testimonial_4_text: '',
+    testimonial_4_author: '',
+    testimonial_5_text: '',
+    testimonial_5_author: '',
+    testimonial_6_text: '',
+    testimonial_6_author: '',
 };
 
 // Helper functions
