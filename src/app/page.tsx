@@ -77,6 +77,7 @@ export default async function Home() {
             <About
                 title={settings.about_title}
                 description={settings.about_description}
+                services={servicesSectionItems}
             />
 
 
