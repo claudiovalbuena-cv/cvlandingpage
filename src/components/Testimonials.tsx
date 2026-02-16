@@ -96,13 +96,16 @@ export default function Testimonials({
                             {subtitle}
                         </span>
                         <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.1]">
-                            {title.split('<br />').map((line, i) => (
-                                <span key={i}>
-                                    {line}
-                                    {i < title.split('<br />').length - 1 && <br />}
-                                </span>
-                            ))}
-                            {title.indexOf('<br />') === -1 && title}
+                            {title.includes('<br />') ? (
+                                title.split('<br />').map((line, i) => (
+                                    <span key={i}>
+                                        {line}
+                                        {i < title.split('<br />').length - 1 && <br />}
+                                    </span>
+                                ))
+                            ) : (
+                                title
+                            )}
                         </h2>
                     </div>
                 </div>
