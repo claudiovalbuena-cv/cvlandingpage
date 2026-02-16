@@ -58,6 +58,10 @@ export async function PUT(request: NextRequest) {
             'gallery_image_7',
             'gallery_image_8',
             'gallery_image_9',
+            'service_1_icon', 'service_1_title', 'service_1_description', 'service_1_url',
+            'service_2_icon', 'service_2_title', 'service_2_description', 'service_2_url',
+            'service_3_icon', 'service_3_title', 'service_3_description', 'service_3_url',
+            'service_4_icon', 'service_4_title', 'service_4_description', 'service_4_url',
         ];
 
         for (const key of settingKeys) {

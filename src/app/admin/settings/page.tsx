@@ -43,6 +43,22 @@ interface SettingsData {
     gallery_image_7: string;
     gallery_image_8: string;
     gallery_image_9: string;
+    service_1_icon: string;
+    service_1_title: string;
+    service_1_description: string;
+    service_1_url: string;
+    service_2_icon: string;
+    service_2_title: string;
+    service_2_description: string;
+    service_2_url: string;
+    service_3_icon: string;
+    service_3_title: string;
+    service_3_description: string;
+    service_3_url: string;
+    service_4_icon: string;
+    service_4_title: string;
+    service_4_description: string;
+    service_4_url: string;
 }
 
 export default function AdminSettingsPage() {
@@ -83,6 +99,22 @@ export default function AdminSettingsPage() {
         gallery_image_7: '',
         gallery_image_8: '',
         gallery_image_9: '',
+        service_1_icon: 'Camera',
+        service_1_title: '',
+        service_1_description: '',
+        service_1_url: '',
+        service_2_icon: 'Heart',
+        service_2_title: '',
+        service_2_description: '',
+        service_2_url: '',
+        service_3_icon: 'User',
+        service_3_title: '',
+        service_3_description: '',
+        service_3_url: '',
+        service_4_icon: 'Calendar',
+        service_4_title: '',
+        service_4_description: '',
+        service_4_url: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -373,6 +405,73 @@ export default function AdminSettingsPage() {
                                         )}
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Services Section */}
+                        <div className="bg-white border border-gray-200 p-6">
+                            <h3 className="font-serif text-xl mb-6">Services / Features</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {[1, 2, 3, 4].map((num) => (
+                                    <div key={num} className="border border-gray-100 p-4 rounded-sm">
+                                        <h4 className="font-medium mb-3 text-gray-700">Service {num}</h4>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Icon (Camera, Heart, User, Calendar)</label>
+                                                <select
+                                                    name={`service_${num}_icon`}
+                                                    value={(settings as any)[`service_${num}_icon`]}
+                                                    onChange={handleChange}
+                                                    className="w-full px-3 py-2 border border-gray-300 text-sm"
+                                                >
+                                                    <option value="Camera">Camera</option>
+                                                    <option value="Heart">Heart</option>
+                                                    <option value="User">User</option>
+                                                    <option value="Calendar">Calendar</option>
+                                                    <option value="Video">Video</option>
+                                                    <option value="Star">Star</option>
+                                                    <option value="Award">Award</option>
+                                                    <option value="Aperture">Aperture</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Title</label>
+                                                <input
+                                                    type="text"
+                                                    name={`service_${num}_title`}
+                                                    value={(settings as any)[`service_${num}_title`]}
+                                                    onChange={handleChange}
+                                                    className="w-full px-3 py-2 border border-gray-300 text-sm"
+                                                    placeholder="e.g. Weddings"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                                                <textarea
+                                                    name={`service_${num}_description`}
+                                                    value={(settings as any)[`service_${num}_description`]}
+                                                    onChange={handleChange}
+                                                    className="w-full px-3 py-2 border border-gray-300 text-sm"
+                                                    rows={2}
+                                                    placeholder="Short description..."
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">URL (Optional)</label>
+                                                <div className="relative">
+                                                    <input
+                                                        type="text"
+                                                        name={`service_${num}_url`}
+                                                        value={(settings as any)[`service_${num}_url`]}
+                                                        onChange={handleChange}
+                                                        className="w-full px-3 py-2 border border-gray-300 text-sm"
+                                                        placeholder="https://..."
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

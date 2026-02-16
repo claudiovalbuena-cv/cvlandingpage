@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
 import BehindCamera from '@/components/BehindCamera';
 import PhotoGrid from '@/components/PhotoGrid';
@@ -9,7 +10,7 @@ import CTA from '@/components/CTA';
 import Pricing from '@/components/Pricing';
 import BookingForm from '@/components/BookingForm';
 import Footer from '@/components/Footer';
-import { getServices, getSettings, getPortfolio } from '@/lib/supabase';
+import { getServices, getSettings } from '@/lib/supabase';
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -55,6 +56,14 @@ export default async function Home() {
         return url ? { src: url, alt: `Gallery Image ${num}` } : null;
     }).filter(item => item !== null);
 
+    // Build Services items from settings (New 4-card section)
+    const servicesSectionItems = [1, 2, 3, 4].map(num => ({
+        icon: settings[`service_${num}_icon`] || 'Camera',
+        title: settings[`service_${num}_title`] || '',
+        description: settings[`service_${num}_description`] || '',
+        url: settings[`service_${num}_url`] || '',
+    })).filter(item => item.title !== ''); // Only show if title is present
+
     return (
         <main>
             <Header
@@ -70,6 +79,10 @@ export default async function Home() {
                 title={settings.about_title}
                 description={settings.about_description}
             />
+
+            {/* New Services Section placed before Portfolio */}
+            <Services items={servicesSectionItems} />
+
             <Portfolio
                 items={portfolio}
                 title={settings.portfolio_title}

@@ -33,6 +33,27 @@ let mockSettings: Record<string, string> = {
     gallery_image_7: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=600',
     gallery_image_8: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600',
     gallery_image_9: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600',
+
+    // Services Defaults
+    service_1_icon: 'Camera',
+    service_1_title: 'Fashion & Editorial',
+    service_1_description: 'Bold, artistic, story-driven',
+    service_1_url: '',
+
+    service_2_icon: 'Heart',
+    service_2_title: 'Weddings',
+    service_2_description: 'Timeless, romantic, emotional',
+    service_2_url: '',
+
+    service_3_icon: 'User',
+    service_3_title: 'Portraits & Lifestyle',
+    service_3_description: 'Authentic, expressive, professional',
+    service_3_url: '',
+
+    service_4_icon: 'Calendar',
+    service_4_title: 'Events',
+    service_4_description: 'Cultural, vibrant, candid',
+    service_4_url: '',
 };
 
 // Helper functions
