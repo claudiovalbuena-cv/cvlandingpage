@@ -92,6 +92,17 @@ export default async function Home() {
                 description2={settings.behind_camera_description2}
                 imageUrl={settings.behind_camera_image_url}
             />
+
+            {/* TEMP DEBUG: Visual check of settings data */}
+            <div className="bg-gray-900 text-green-400 p-8 font-mono text-xs overflow-auto max-h-96">
+                <h3 className="text-white text-lg mb-4">DEBUG DATA (Should contain your changes)</h3>
+                <pre>{JSON.stringify(
+                    Object.fromEntries(
+                        Object.entries(settings).filter(([key]) => key.startsWith('service_'))
+                    ),
+                    null, 2
+                )}</pre>
+            </div>
             <PhotoGrid items={photoGridItems} />
             <Testimonials />
             <CTA />
