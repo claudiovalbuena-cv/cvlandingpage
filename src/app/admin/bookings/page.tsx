@@ -42,6 +42,22 @@ export default function AdminBookingsPage() {
         }
     };
 
+    const deleteBooking = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this booking?')) return;
+
+        try {
+            const response = await fetch(`/api/admin/bookings/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setBookings(prev => prev.filter(b => b.id !== id));
+            }
+        } catch (error) {
+            console.error('Error deleting booking:', error);
+        }
+    };
+
     const filteredBookings = filter === 'all'
         ? bookings
         : bookings.filter(b => b.status === filter);
@@ -140,13 +156,19 @@ export default function AdminBookingsPage() {
                                                 Mark Pending
                                             </button>
                                         )}
+                                        <button
+                                            onClick={() => deleteBooking(booking.id)}
+                                            className="text-sm bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 transition-colors ml-2"
+                                        >
+                                            Delete
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

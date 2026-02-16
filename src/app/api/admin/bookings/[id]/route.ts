@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateBookingStatus } from '@/lib/supabase';
+import { updateBookingStatus, deleteBooking } from '@/lib/supabase';
 
 export async function PUT(
     request: NextRequest,
@@ -22,5 +22,19 @@ export async function PUT(
     } catch (error) {
         console.error('Error updating booking:', error);
         return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+    }
+}
+
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        await deleteBooking(id);
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error('Error deleting booking:', error);
+        return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
     }
 }
