@@ -1,37 +1,34 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { Camera, Heart, User, Calendar } from 'lucide-react';
+import { Camera, Heart, User, Calendar, Video, Star, Award, Aperture } from 'lucide-react';
+import Link from 'next/link';
 
-const services = [
-    {
-        icon: Camera,
-        title: 'Fashion & Editorial',
-        description: 'Bold, artistic, story-driven',
-    },
-    {
-        icon: Heart,
-        title: 'Weddings',
-        description: 'Timeless, romantic, emotional',
-    },
-    {
-        icon: User,
-        title: 'Portraits & Lifestyle',
-        description: 'Authentic, expressive, professional',
-    },
-    {
-        icon: Calendar,
-        title: 'Evento',
-        description: 'Cultural, vibrant, candid',
-    },
-];
+const iconMap: { [key: string]: any } = {
+    Camera,
+    Heart,
+    User,
+    Calendar,
+    Video,
+    Star,
+    Award,
+    Aperture,
+};
+
+interface ServiceItem {
+    icon: string;
+    title: string;
+    description: string;
+    url?: string;
+}
 
 interface AboutProps {
     title?: string;
     description?: string;
+    services?: ServiceItem[];
 }
 
-export default function About({ title, description }: AboutProps) {
+export default function About({ title, description, services = [] }: AboutProps) {
     const aboutRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -71,16 +68,28 @@ export default function About({ title, description }: AboutProps) {
 
                 {/* Service Categories */}
                 <div className="stagger-children grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                    {services.map((service) => (
-                        <div
-                            key={service.title}
-                            className="border border-white/20 p-6 hover:border-accent/50 transition-colors group"
-                        >
-                            <service.icon className="w-6 h-6 mx-auto mb-4 text-white/60 group-hover:text-accent transition-colors" />
-                            <h3 className="font-serif text-lg mb-2">{service.title}</h3>
-                            <p className="text-sm text-white/50">{service.description}</p>
-                        </div>
-                    ))}
+                    {services.map((service, index) => {
+                        const IconComponent = iconMap[service.icon] || Camera;
+                        const CardContent = (
+                            <div className="h-full border border-white/20 p-6 hover:border-accent/50 transition-colors group cursor-pointer">
+                                <IconComponent className="w-6 h-6 mx-auto mb-4 text-white/60 group-hover:text-accent transition-colors" />
+                                <h3 className="font-serif text-lg mb-2">{service.title}</h3>
+                                <p className="text-sm text-white/50">{service.description}</p>
+                            </div>
+                        );
+
+                        return (
+                            <div key={index}>
+                                {service.url ? (
+                                    <Link href={service.url} className="block h-full">
+                                        {CardContent}
+                                    </Link>
+                                ) : (
+                                    CardContent
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

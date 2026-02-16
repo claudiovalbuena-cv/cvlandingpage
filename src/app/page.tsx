@@ -1,7 +1,6 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
-import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
 import BehindCamera from '@/components/BehindCamera';
 import PhotoGrid from '@/components/PhotoGrid';
@@ -80,8 +79,7 @@ export default async function Home() {
                 description={settings.about_description}
             />
 
-            {/* New Services Section placed before Portfolio */}
-            <Services items={servicesSectionItems} />
+
 
             <Portfolio
                 items={portfolio}
