@@ -47,7 +47,7 @@ interface PhotoGridProps {
 }
 
 export default function PhotoGrid({ items = [] }: PhotoGridProps) {
-    const displayPhotos = items.length > 0 ? items.slice(0, 9) : photos;
+    const displayPhotos = (items && items.length > 0) ? items : photos;
     const gridRef = useRef<HTMLElement>(null);
 
     useEffect(() => {

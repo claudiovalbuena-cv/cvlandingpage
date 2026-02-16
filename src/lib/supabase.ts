@@ -24,6 +24,12 @@ let mockSettings: Record<string, string> = {
     portfolio_image_1: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800',
     portfolio_image_2: 'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?q=80&w=800',
     portfolio_image_3: 'https://images.unsplash.com/photo-1469460340997-2f854421e72f?q=80&w=800',
+    gallery_image_1: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600',
+    gallery_image_2: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600',
+    gallery_image_3: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600',
+    gallery_image_4: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600',
+    gallery_image_5: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600',
+    gallery_image_6: 'https://images.unsplash.com/photo-1504703395950-b89145a5425b?q=80&w=600',
 };
 
 // Helper functions

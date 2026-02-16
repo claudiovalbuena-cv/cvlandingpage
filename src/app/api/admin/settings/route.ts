@@ -49,6 +49,12 @@ export async function PUT(request: NextRequest) {
             'portfolio_image_1',
             'portfolio_image_2',
             'portfolio_image_3',
+            'gallery_image_1',
+            'gallery_image_2',
+            'gallery_image_3',
+            'gallery_image_4',
+            'gallery_image_5',
+            'gallery_image_6',
         ];
 
         for (const key of settingKeys) {

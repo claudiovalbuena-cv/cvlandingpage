@@ -49,6 +49,12 @@ export default async function Home() {
         console.error('Error fetching data:', error);
     }
 
+    // Build PhotoGrid items from settings
+    const photoGridItems = [1, 2, 3, 4, 5, 6].map(num => {
+        const url = settings[`gallery_image_${num}`];
+        return url ? { src: url, alt: `Gallery Image ${num}` } : null;
+    }).filter(item => item !== null);
+
     return (
         <main>
             <Header
@@ -75,7 +81,7 @@ export default async function Home() {
                 description2={settings.behind_camera_description2}
                 imageUrl={settings.behind_camera_image_url}
             />
-            <PhotoGrid items={portfolio} />
+            <PhotoGrid items={photoGridItems} />
             <Testimonials />
             <CTA />
             <Pricing

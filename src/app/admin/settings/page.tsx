@@ -34,6 +34,12 @@ interface SettingsData {
     portfolio_image_1: string;
     portfolio_image_2: string;
     portfolio_image_3: string;
+    gallery_image_1: string;
+    gallery_image_2: string;
+    gallery_image_3: string;
+    gallery_image_4: string;
+    gallery_image_5: string;
+    gallery_image_6: string;
 }
 
 export default function AdminSettingsPage() {
@@ -65,6 +71,12 @@ export default function AdminSettingsPage() {
         portfolio_image_1: '',
         portfolio_image_2: '',
         portfolio_image_3: '',
+        gallery_image_1: '',
+        gallery_image_2: '',
+        gallery_image_3: '',
+        gallery_image_4: '',
+        gallery_image_5: '',
+        gallery_image_6: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -171,6 +183,35 @@ export default function AdminSettingsPage() {
             setSettings(prev => ({ ...prev, [`portfolio_image_${index}`]: publicUrl }));
         } catch (error) {
             console.error(`Error uploading portfolio image ${index}:`, error);
+            alert('Error uploading image');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `gallery_${index}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `settings/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setSettings(prev => ({ ...prev, [`gallery_image_${index}`]: publicUrl }));
+        } catch (error) {
+            console.error(`Error uploading gallery image ${index}:`, error);
             alert('Error uploading image');
         } finally {
             setIsUploading(false);
