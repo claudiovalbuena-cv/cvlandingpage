@@ -7,11 +7,9 @@ interface PricingProps {
     services: Service[];
     subtitle?: string;
     title?: string;
-    unit?: string;
-    unitUrl?: string;
 }
 
-export default function Pricing({ services, subtitle, title, unit = '/ session', unitUrl }: PricingProps) {
+export default function Pricing({ services, subtitle, title }: PricingProps) {
     const sectionRef = useRef<HTMLElement>(null);
     // ... animation effect remains the same
     useEffect(() => {
@@ -34,9 +32,9 @@ export default function Pricing({ services, subtitle, title, unit = '/ session',
 
     // ... displayServices logic remains the same
     const displayServices = services.length > 0 ? services : [
-        { id: '1', name: 'Portrait Session', description: 'Professional portrait photography for individuals or couples', price: 250, category: 'portrait', icon: null, created_at: new Date().toISOString() },
-        { id: '2', name: 'Wedding Package', description: 'Full day wedding coverage with edited photos', price: 2500, category: 'wedding', icon: null, created_at: new Date().toISOString() },
-        { id: '3', name: 'Fashion Editorial', description: 'Creative fashion shoots for portfolios or brands', price: 500, category: 'fashion', icon: null, created_at: new Date().toISOString() },
+        { id: '1', name: 'Portrait Session', description: 'Professional portrait photography for individuals or couples', price: 250, price_text: '/ session', price_url: null, category: 'portrait', icon: null, created_at: new Date().toISOString() },
+        { id: '2', name: 'Wedding Package', description: 'Full day wedding coverage with edited photos', price: 2500, price_text: '/ session', price_url: null, category: 'wedding', icon: null, created_at: new Date().toISOString() },
+        { id: '3', name: 'Fashion Editorial', description: 'Creative fashion shoots for portfolios or brands', price: 500, price_text: '/ session', price_url: null, category: 'fashion', icon: null, created_at: new Date().toISOString() },
     ];
 
     return (
@@ -69,17 +67,17 @@ export default function Pricing({ services, subtitle, title, unit = '/ session',
                             </p>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-3xl font-light">${service.price.toLocaleString()}</span>
-                                {unitUrl ? (
+                                {service.price_url ? (
                                     <a
-                                        href={unitUrl}
+                                        href={service.price_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-gray-500 text-sm hover:text-accent transition-colors underline decoration-dotted"
                                     >
-                                        {unit}
+                                        {service.price_text || '/ session'}
                                     </a>
                                 ) : (
-                                    <span className="text-gray-500 text-sm">{unit}</span>
+                                    <span className="text-gray-500 text-sm">{service.price_text || '/ session'}</span>
                                 )}
                             </div>
                         </div>

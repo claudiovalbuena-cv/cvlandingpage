@@ -14,54 +14,14 @@ export default function AdminServicesPage() {
         name: '',
         description: '',
         price: '',
+        price_text: '/ session',
+        price_url: '',
         category: '',
     });
 
-    const [pricingUnit, setPricingUnit] = useState('/ session');
-    const [pricingUnitUrl, setPricingUnitUrl] = useState('');
-    const [isSavingUnit, setIsSavingUnit] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
-
     useEffect(() => {
         fetchServices();
-        fetchSettings();
     }, []);
-
-    const fetchSettings = async () => {
-        try {
-            const response = await fetch('/api/admin/settings');
-            const data = await response.json();
-            if (data.settings?.pricing_unit) {
-                setPricingUnit(data.settings.pricing_unit);
-            }
-            if (data.settings?.pricing_unit_url) {
-                setPricingUnitUrl(data.settings.pricing_unit_url);
-            }
-        } catch (error) {
-            console.error('Error fetching settings:', error);
-        }
-    };
-
-    const handleSaveUnit = async () => {
-        setIsSavingUnit(true);
-        try {
-            const response = await fetch('/api/admin/settings', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    pricing_unit: pricingUnit,
-                    pricing_unit_url: pricingUnitUrl
-                }),
-            });
-            if (response.ok) {
-                alert('Ajustes de precios guardados correctamente');
-            }
-        } catch (error) {
-            console.error('Error saving unit:', error);
-        } finally {
-            setIsSavingUnit(false);
-        }
-    };
 
     const fetchServices = async () => {
         try {
@@ -130,6 +90,8 @@ export default function AdminServicesPage() {
             name: service.name,
             description: service.description || '',
             price: service.price.toString(),
+            price_text: service.price_text || '/ session',
+            price_url: service.price_url || '',
             category: service.category || '',
         });
         setShowNewForm(true);
@@ -142,6 +104,8 @@ export default function AdminServicesPage() {
             name: '',
             description: '',
             price: '',
+            price_text: '/ session',
+            price_url: '',
             category: '',
         });
     };
@@ -155,12 +119,6 @@ export default function AdminServicesPage() {
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="font-serif text-3xl">Manage Services</h2>
                     <div className="flex gap-4">
-                        <button
-                            onClick={() => setShowSettings(!showSettings)}
-                            className="px-4 py-2 border border-black hover:bg-black hover:text-white transition-all text-sm font-medium"
-                        >
-                            {showSettings ? 'Cerrar Ajustes' : 'Ajustes de Inversión'}
-                        </button>
                         {!showNewForm && (
                             <button
                                 onClick={() => setShowNewForm(true)}
@@ -172,57 +130,74 @@ export default function AdminServicesPage() {
                     </div>
                 </div>
 
-                {/* Settings Panel */}
-                {showSettings && (
-                    <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm mb-12 space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Texto de precio (ej: / sesión)</label>
-                                <input
-                                    type="text"
-                                    value={pricingUnit}
-                                    onChange={(e) => setPricingUnit(e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-200 focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">URL opcional (para que el texto sea clickable)</label>
-                                <input
-                                    type="text"
-                                    value={pricingUnitUrl}
-                                    onChange={(e) => setPricingUnitUrl(e.target.value)}
-                                    placeholder="https://wa.me/..."
-                                    className="w-full px-4 py-3 border border-gray-200 focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
-                                />
-                            </div>
-                        </div>
-                        <div className="flex justify-end pt-4">
-                            <button
-                                onClick={handleSaveUnit}
-                                disabled={isSavingUnit}
-                                className="bg-black text-white px-8 py-3.5 hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium"
-                            >
-                                {isSavingUnit ? 'Guardando...' : 'Guardar Ajustes'}
-                            </button>
-                        </div>
-                    </div>
-                )}
-
                 {/* Form */}
                 {showNewForm && (
-                    <div className="bg-white border border-gray-200 p-6 mb-8">
-                        <h3 className="font-serif text-xl mb-6">
+                    <div className="bg-white border border-gray-200 p-8 mb-8 shadow-sm rounded-xl">
+                        <h3 className="font-serif text-2xl mb-8">
                             {editingId ? 'Edit Service' : 'New Service'}
                         </h3>
-                        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+                        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-x-8 gap-y-6">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Name</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre del Servicio *</label>
                                 <input
                                     type="text"
                                     required
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300"
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="ej: Sesión de Retrato"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Precio ($) *</label>
+                                <input
+                                    type="number"
+                                    required
+                                    step="0.01"
+                                    value={formData.price}
+                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="ej: 75.00"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Texto de precio (ej: / sesión)</label>
+                                <input
+                                    type="text"
+                                    value={formData.price_text}
+                                    onChange={(e) => setFormData({ ...formData, price_text: e.target.value })}
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="/ sesión"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">URL opcional (link para el texto de precio)</label>
+                                <input
+                                    type="text"
+                                    value={formData.price_url}
+                                    onChange={(e) => setFormData({ ...formData, price_url: e.target.value })}
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="https://wa.me/..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+                                <input
+                                    type="text"
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="ej: wedding, portrait, fashion"
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    rows={3}
+                                    placeholder="Describe los detalles del paquete..."
                                 />
                             </div>
                             <div>

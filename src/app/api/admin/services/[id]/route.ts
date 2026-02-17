@@ -8,12 +8,14 @@ export async function PUT(
     try {
         const { id } = await params;
         const body = await request.json();
-        const { name, description, price, category, icon } = body;
+        const { name, description, price, category, icon, price_text, price_url } = body;
 
         const service = await updateService(id, {
             name,
             description,
             price: price !== undefined ? parseFloat(price) : undefined,
+            price_text,
+            price_url,
             category,
             icon,
         });

@@ -203,17 +203,19 @@ export async function updateSetting(key: string, value: string) {
     return data;
 }
 
-export async function updateService(id: string, updates: Partial<{
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    icon: string;
-}>) {
+export async function updateService(id: string, service: {
+    name?: string;
+    description?: string | null;
+    price?: number;
+    price_text?: string | null;
+    price_url?: string | null;
+    category?: string | null;
+    icon?: string | null;
+}) {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
         .from('services')
-        .update(updates)
+        .update(service)
         .eq('id', id)
         .select()
         .single();
@@ -226,10 +228,12 @@ export async function updateService(id: string, updates: Partial<{
 
 export async function createService(service: {
     name: string;
-    description?: string;
+    description: string | null;
     price: number;
-    category?: string;
-    icon?: string;
+    price_text?: string | null;
+    price_url?: string | null;
+    category: string | null;
+    icon: string | null;
 }) {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
@@ -238,9 +242,7 @@ export async function createService(service: {
         .select()
         .single();
 
-    if (error) {
-        throw error;
-    }
+    if (error) throw error;
     return data;
 }
 

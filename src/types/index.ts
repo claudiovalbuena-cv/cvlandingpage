@@ -3,6 +3,8 @@ export interface Service {
     name: string;
     description: string | null;
     price: number;
+    price_text: string | null;
+    price_url: string | null;
     category: string | null;
     icon: string | null;
     created_at: string;
