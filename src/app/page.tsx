@@ -77,6 +77,7 @@ export default async function Home() {
             <Hero
                 title={settings.hero_title}
                 subtitle={settings.hero_subtitle}
+                buttonText={settings.hero_button_text}
                 backgroundImage={settings.hero_image_url}
             />
             <About

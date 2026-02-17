@@ -20,6 +20,7 @@ interface SettingsData {
     social_style: string;
     hero_title: string;
     hero_subtitle: string;
+    hero_button_text: string;
     hero_image_url: string;
     about_title: string;
     about_description: string;
@@ -76,6 +77,7 @@ export default function AdminSettingsPage() {
         social_style: 'minimal',
         hero_title: '',
         hero_subtitle: '',
+        hero_button_text: '',
         hero_image_url: '',
         about_title: '',
         about_description: '',
@@ -366,6 +368,17 @@ export default function AdminSettingsPage() {
                                         className="w-full px-4 py-3 border border-gray-300"
                                         rows={2}
                                         placeholder="A portfolio landing page designed for photographers..."
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Hero Button Text</label>
+                                    <input
+                                        type="text"
+                                        name="hero_button_text"
+                                        value={settings.hero_button_text}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 border border-gray-300"
+                                        placeholder="Book a Session"
                                     />
                                 </div>
                                 <div>

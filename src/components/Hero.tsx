@@ -7,10 +7,11 @@ import Image from 'next/image';
 interface HeroProps {
     title?: string;
     subtitle?: string;
+    buttonText?: string;
     backgroundImage?: string;
 }
 
-export default function Hero({ title, subtitle, backgroundImage }: HeroProps) {
+export default function Hero({ title, subtitle, buttonText, backgroundImage }: HeroProps) {
     const heroRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -61,7 +62,7 @@ export default function Hero({ title, subtitle, backgroundImage }: HeroProps) {
                     href="#booking"
                     className="animate-on-scroll delay-200 inline-block bg-accent hover:bg-accent-hover text-white px-8 py-4 text-sm font-medium tracking-wide transition-all duration-300 hover:transform hover:-translate-y-1"
                 >
-                    Book a Session
+                    {buttonText || 'Book a Session'}
                 </Link>
             </div>
 
