@@ -67,6 +67,7 @@ interface SettingsData {
     menu_contact_label: string;
     menu_cta_label: string;
     menu_cta_url: string;
+    favicon_url: string;
 }
 
 export default function AdminSettingsPage() {
@@ -131,6 +132,7 @@ export default function AdminSettingsPage() {
         menu_contact_label: '',
         menu_cta_label: '',
         menu_cta_url: '',
+        favicon_url: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -267,6 +269,35 @@ export default function AdminSettingsPage() {
         } catch (error) {
             console.error(`Error uploading gallery image ${index}:`, error);
             alert('Error uploading image');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `favicon_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `settings/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('media')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('media')
+                .getPublicUrl(filePath);
+
+            setSettings(prev => ({ ...prev, favicon_url: publicUrl }));
+        } catch (error) {
+            console.error('Error uploading favicon:', error);
+            alert('Error uploading favicon');
         } finally {
             setIsUploading(false);
         }
@@ -446,6 +477,45 @@ export default function AdminSettingsPage() {
                                                 />
                                             </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Icono del Sitio (Favicon)</label>
+                                        <div className="flex gap-4 items-start">
+                                            <div className="flex-1">
+                                                <input
+                                                    type="text"
+                                                    name="favicon_url"
+                                                    value={settings.favicon_url}
+                                                    onChange={handleChange}
+                                                    className="w-full px-4 py-3 border border-gray-300 mb-2"
+                                                    placeholder="/favicon.ico"
+                                                />
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="file"
+                                                        id="favicon_upload"
+                                                        className="hidden"
+                                                        accept="image/*"
+                                                        onChange={handleFaviconUpload}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => document.getElementById('favicon_upload')?.click()}
+                                                        disabled={isUploading}
+                                                        className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-sm transition-colors"
+                                                    >
+                                                        <Upload size={16} />
+                                                        {isUploading ? 'Subiendo...' : 'Subir Nuevo Icono'}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {settings.favicon_url && (
+                                                <div className="w-16 h-16 border border-gray-200 flex items-center justify-center p-2 bg-gray-50">
+                                                    <img src={settings.favicon_url} alt="Favicon" className="w-8 h-8 object-contain" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <p className="mt-1 text-xs text-gray-500">Se recomienda un archivo .png o .ico cuadrado (e.g. 32x32)</p>
                                     </div>
                                 </div>
                             </div>

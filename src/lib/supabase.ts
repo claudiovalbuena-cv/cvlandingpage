@@ -96,6 +96,7 @@ let mockSettings: Record<string, string> = {
     menu_contact_label: 'Contacto',
     menu_cta_label: 'Ver Galería',
     menu_cta_url: '#gallery',
+    favicon_url: '/favicon.ico',
 };
 
 // Helper functions

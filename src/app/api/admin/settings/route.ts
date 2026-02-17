@@ -63,6 +63,7 @@ export async function PUT(request: NextRequest) {
             'menu_contact_label',
             'menu_cta_label',
             'menu_cta_url',
+            'favicon_url',
         ];
 
         for (const key of settingKeys) {
