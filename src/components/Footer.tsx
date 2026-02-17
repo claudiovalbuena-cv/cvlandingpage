@@ -16,9 +16,9 @@ export default function Footer({ settings }: FooterProps) {
     const currentYear = new Date().getFullYear();
 
     const footerLinks = [
-        { href: '#gallery', label: 'Gallery' },
-        { href: '#services', label: 'Services' },
-        { href: '#contact', label: 'Contact' },
+        { href: '#gallery', label: 'Galería' },
+        { href: '#services', label: 'Servicios' },
+        { href: '#contact', label: 'Contacto' },
     ];
 
     const socialLinks = [

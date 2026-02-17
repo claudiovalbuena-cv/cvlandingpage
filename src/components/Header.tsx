@@ -68,10 +68,10 @@ export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: Heade
                         </Link>
                     ))}
                     <Link
-                        href="#booking"
+                        href="#gallery"
                         className="bg-black text-white px-5 py-2.5 text-sm font-medium tracking-wide hover:bg-gray-800 transition-colors"
                     >
-                        View Gallery
+                        Ver Galería
                     </Link>
                 </nav>
 
@@ -126,11 +126,11 @@ export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: Heade
                         </Link>
                     ))}
                     <Link
-                        href="#booking"
+                        href="#gallery"
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="bg-black text-white text-center py-3 font-medium hover:bg-gray-800 transition-colors mt-2"
                     >
-                        View Gallery
+                        Ver Galería
                     </Link>
                 </nav>
             </div>
