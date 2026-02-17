@@ -8,11 +8,12 @@ interface PricingProps {
     subtitle?: string;
     title?: string;
     unit?: string;
+    unitUrl?: string;
 }
 
-export default function Pricing({ services, subtitle, title, unit = '/ session' }: PricingProps) {
+export default function Pricing({ services, subtitle, title, unit = '/ session', unitUrl }: PricingProps) {
     const sectionRef = useRef<HTMLElement>(null);
-
+    // ... animation effect remains the same
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -31,35 +32,11 @@ export default function Pricing({ services, subtitle, title, unit = '/ session' 
         return () => observer.disconnect();
     }, []);
 
-    // Default services if none from database
+    // ... displayServices logic remains the same
     const displayServices = services.length > 0 ? services : [
-        {
-            id: '1',
-            name: 'Portrait Session',
-            description: 'Professional portrait photography for individuals or couples',
-            price: 250,
-            category: 'portrait',
-            icon: null,
-            created_at: new Date().toISOString(),
-        },
-        {
-            id: '2',
-            name: 'Wedding Package',
-            description: 'Full day wedding coverage with edited photos',
-            price: 2500,
-            category: 'wedding',
-            icon: null,
-            created_at: new Date().toISOString(),
-        },
-        {
-            id: '3',
-            name: 'Fashion Editorial',
-            description: 'Creative fashion shoots for portfolios or brands',
-            price: 500,
-            category: 'fashion',
-            icon: null,
-            created_at: new Date().toISOString(),
-        },
+        { id: '1', name: 'Portrait Session', description: 'Professional portrait photography for individuals or couples', price: 250, category: 'portrait', icon: null, created_at: new Date().toISOString() },
+        { id: '2', name: 'Wedding Package', description: 'Full day wedding coverage with edited photos', price: 2500, category: 'wedding', icon: null, created_at: new Date().toISOString() },
+        { id: '3', name: 'Fashion Editorial', description: 'Creative fashion shoots for portfolios or brands', price: 500, category: 'fashion', icon: null, created_at: new Date().toISOString() },
     ];
 
     return (
@@ -92,7 +69,18 @@ export default function Pricing({ services, subtitle, title, unit = '/ session' 
                             </p>
                             <div className="flex items-baseline gap-1">
                                 <span className="text-3xl font-light">${service.price.toLocaleString()}</span>
-                                <span className="text-gray-500 text-sm">{unit}</span>
+                                {unitUrl ? (
+                                    <a
+                                        href={unitUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-500 text-sm hover:text-accent transition-colors underline decoration-dotted"
+                                    >
+                                        {unit}
+                                    </a>
+                                ) : (
+                                    <span className="text-gray-500 text-sm">{unit}</span>
+                                )}
                             </div>
                         </div>
                     ))}

@@ -18,6 +18,7 @@ export default function AdminServicesPage() {
     });
 
     const [pricingUnit, setPricingUnit] = useState('/ session');
+    const [pricingUnitUrl, setPricingUnitUrl] = useState('');
     const [isSavingUnit, setIsSavingUnit] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
 
@@ -33,6 +34,9 @@ export default function AdminServicesPage() {
             if (data.settings?.pricing_unit) {
                 setPricingUnit(data.settings.pricing_unit);
             }
+            if (data.settings?.pricing_unit_url) {
+                setPricingUnitUrl(data.settings.pricing_unit_url);
+            }
         } catch (error) {
             console.error('Error fetching settings:', error);
         }
@@ -44,10 +48,13 @@ export default function AdminServicesPage() {
             const response = await fetch('/api/admin/settings', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pricing_unit: pricingUnit }),
+                body: JSON.stringify({
+                    pricing_unit: pricingUnit,
+                    pricing_unit_url: pricingUnitUrl
+                }),
             });
             if (response.ok) {
-                alert('Unidad de precio guardada correctamente');
+                alert('Ajustes de precios guardados correctamente');
             }
         } catch (error) {
             console.error('Error saving unit:', error);
@@ -170,7 +177,7 @@ export default function AdminServicesPage() {
                     <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm mb-12 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Unidad de Precio (ej: / sesión)</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Texto de precio (ej: / sesión)</label>
                                 <input
                                     type="text"
                                     value={pricingUnit}
@@ -179,14 +186,24 @@ export default function AdminServicesPage() {
                                 />
                             </div>
                             <div>
-                                <button
-                                    onClick={handleSaveUnit}
-                                    disabled={isSavingUnit}
-                                    className="bg-black text-white px-8 py-3.5 hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium"
-                                >
-                                    {isSavingUnit ? 'Guardando...' : 'Guardar Unidad'}
-                                </button>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">URL opcional (para que el texto sea clickable)</label>
+                                <input
+                                    type="text"
+                                    value={pricingUnitUrl}
+                                    onChange={(e) => setPricingUnitUrl(e.target.value)}
+                                    placeholder="https://wa.me/..."
+                                    className="w-full px-4 py-3 border border-gray-200 focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                />
                             </div>
+                        </div>
+                        <div className="flex justify-end pt-4">
+                            <button
+                                onClick={handleSaveUnit}
+                                disabled={isSavingUnit}
+                                className="bg-black text-white px-8 py-3.5 hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium"
+                            >
+                                {isSavingUnit ? 'Guardando...' : 'Guardar Ajustes'}
+                            </button>
                         </div>
                     </div>
                 )}

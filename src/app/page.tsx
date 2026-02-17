@@ -115,6 +115,7 @@ export default async function Home() {
                 subtitle={settings.pricing_subtitle}
                 title={settings.pricing_title}
                 unit={settings.pricing_unit}
+                unitUrl={settings.pricing_unit_url}
             />
             <BookingForm
                 services={services}
