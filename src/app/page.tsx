@@ -73,6 +73,7 @@ export default async function Home() {
             <Header
                 logoUrl={settings.logo_url}
                 siteName={settings.site_name || 'Melody'}
+                settings={settings}
             />
             <Hero
                 title={settings.hero_title}

@@ -56,6 +56,13 @@ export async function PUT(request: NextRequest) {
             'booking_success_message',
             'pricing_unit',
             'pricing_unit_url',
+            'menu_home_label',
+            'menu_about_label',
+            'menu_services_label',
+            'menu_gallery_label',
+            'menu_contact_label',
+            'menu_cta_label',
+            'menu_cta_url',
         ];
 
         for (const key of settingKeys) {

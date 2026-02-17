@@ -89,6 +89,13 @@ let mockSettings: Record<string, string> = {
     booking_success_message: 'Tu solicitud de reserva ha sido enviada. Me pondré en contacto contigo pronto.',
     pricing_unit: '/ sesión',
     pricing_unit_url: '',
+    menu_home_label: 'Inicio',
+    menu_about_label: 'Sobre Mí',
+    menu_services_label: 'Servicios',
+    menu_gallery_label: 'Galería',
+    menu_contact_label: 'Contacto',
+    menu_cta_label: 'Ver Galería',
+    menu_cta_url: '#gallery',
 };
 
 // Helper functions

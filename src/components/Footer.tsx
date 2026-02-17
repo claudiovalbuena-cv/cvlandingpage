@@ -2,23 +2,16 @@ import Link from 'next/link';
 import SocialLinks from './SocialLinks';
 
 interface FooterProps {
-    settings?: {
-        instagram?: string;
-        pinterest?: string;
-        linkedin?: string;
-        behance?: string;
-        facebook?: string;
-        social_style?: string;
-    };
+    settings?: Record<string, string>;
 }
 
 export default function Footer({ settings }: FooterProps) {
     const currentYear = new Date().getFullYear();
 
     const footerLinks = [
-        { href: '#gallery', label: 'Galería' },
-        { href: '#services', label: 'Servicios' },
-        { href: '#contact', label: 'Contacto' },
+        { href: '#gallery', label: settings?.menu_gallery_label || 'Galería' },
+        { href: '#services', label: settings?.menu_services_label || 'Servicios' },
+        { href: '#contact', label: settings?.menu_contact_label || 'Contacto' },
     ];
 
     const socialLinks = [

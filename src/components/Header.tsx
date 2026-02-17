@@ -7,9 +7,10 @@ import Image from 'next/image';
 interface HeaderProps {
     logoUrl?: string;
     siteName?: string;
+    settings?: Record<string, string>;
 }
 
-export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: HeaderProps) {
+export default function Header({ logoUrl, siteName = 'Claudio Valbuena', settings }: HeaderProps) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,11 +24,11 @@ export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: Heade
     }, []);
 
     const navLinks = [
-        { href: '#home', label: 'Inicio' },
-        { href: '#about', label: 'Sobre Mí' },
-        { href: '#services', label: 'Servicios' },
-        { href: '#gallery', label: 'Galería' },
-        { href: '#booking', label: 'Contacto' },
+        { href: '#home', label: settings?.menu_home_label || 'Inicio' },
+        { href: '#about', label: settings?.menu_about_label || 'Sobre Mí' },
+        { href: '#services', label: settings?.menu_services_label || 'Servicios' },
+        { href: '#gallery', label: settings?.menu_gallery_label || 'Galería' },
+        { href: '#booking', label: settings?.menu_contact_label || 'Contacto' },
     ];
 
     // Use custom logos from public folder
@@ -68,10 +69,10 @@ export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: Heade
                         </Link>
                     ))}
                     <Link
-                        href="#gallery"
+                        href={settings?.menu_cta_url || '#gallery'}
                         className="bg-black text-white px-5 py-2.5 text-sm font-medium tracking-wide hover:bg-gray-800 transition-colors"
                     >
-                        Ver Galería
+                        {settings?.menu_cta_label || 'Ver Galería'}
                     </Link>
                 </nav>
 
@@ -126,11 +127,11 @@ export default function Header({ logoUrl, siteName = 'Claudio Valbuena' }: Heade
                         </Link>
                     ))}
                     <Link
-                        href="#gallery"
+                        href={settings?.menu_cta_url || '#gallery'}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="bg-black text-white text-center py-3 font-medium hover:bg-gray-800 transition-colors mt-2"
                     >
-                        Ver Galería
+                        {settings?.menu_cta_label || 'Ver Galería'}
                     </Link>
                 </nav>
             </div>

@@ -60,6 +60,13 @@ interface SettingsData {
     service_4_title: string;
     service_4_description: string;
     service_4_url: string;
+    menu_home_label: string;
+    menu_about_label: string;
+    menu_services_label: string;
+    menu_gallery_label: string;
+    menu_contact_label: string;
+    menu_cta_label: string;
+    menu_cta_url: string;
 }
 
 export default function AdminSettingsPage() {
@@ -117,6 +124,13 @@ export default function AdminSettingsPage() {
         service_4_title: '',
         service_4_description: '',
         service_4_url: '',
+        menu_home_label: '',
+        menu_about_label: '',
+        menu_services_label: '',
+        menu_gallery_label: '',
+        menu_contact_label: '',
+        menu_cta_label: '',
+        menu_cta_url: '',
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -343,6 +357,99 @@ export default function AdminSettingsPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Menu Section */}
+                        <section className="bg-white border border-gray-200 shadow-sm overflow-hidden">
+                            <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                                <h2 className="text-xl font-semibold">Ajustes de Menú</h2>
+                            </div>
+                            <div className="p-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Inicio Label</label>
+                                        <input
+                                            type="text"
+                                            name="menu_home_label"
+                                            value={settings.menu_home_label}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Inicio"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Sobre Mí Label</label>
+                                        <input
+                                            type="text"
+                                            name="menu_about_label"
+                                            value={settings.menu_about_label}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Sobre Mí"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Servicios Label</label>
+                                        <input
+                                            type="text"
+                                            name="menu_services_label"
+                                            value={settings.menu_services_label}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Servicios"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Galería Label</label>
+                                        <input
+                                            type="text"
+                                            name="menu_gallery_label"
+                                            value={settings.menu_gallery_label}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Galería"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Contacto Label</label>
+                                        <input
+                                            type="text"
+                                            name="menu_contact_label"
+                                            value={settings.menu_contact_label}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300"
+                                            placeholder="Contacto"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2 border-t border-gray-100 pt-4 mt-2">
+                                        <h3 className="font-medium mb-4">Botón de Acción (Header)</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">Texto del Botón</label>
+                                                <input
+                                                    type="text"
+                                                    name="menu_cta_label"
+                                                    value={settings.menu_cta_label}
+                                                    onChange={handleChange}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="Ver Galería"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium mb-2">URL del Botón (Opcional)</label>
+                                                <input
+                                                    type="text"
+                                                    name="menu_cta_url"
+                                                    value={settings.menu_cta_url}
+                                                    onChange={handleChange}
+                                                    className="w-full px-4 py-3 border border-gray-300"
+                                                    placeholder="#gallery"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
                         {/* Hero Section */}
                         <div className="bg-white border border-gray-200 p-6">
