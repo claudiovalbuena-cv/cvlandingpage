@@ -122,6 +122,7 @@ export async function POST(request: NextRequest) {
             debug: {
                 emailSent,
                 emailError,
+                receivedBody: body,
                 config: {
                     hasUser: !!gmailUser,
                     hasPass: !!gmailPass
