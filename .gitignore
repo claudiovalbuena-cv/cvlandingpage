@@ -33,3 +33,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+.firebase/
+serviceAccountKey.json
+
+# debug tools
+debug-settings.js
+migrar.js
+debug-*.js

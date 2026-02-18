@@ -108,6 +108,12 @@ export default function BookingForm({
         }
     };
 
+    useEffect(() => {
+        if (submitStatus === 'success' && sectionRef.current) {
+            sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [submitStatus]);
+
     // Disable past dates
     const disabledDays = { before: new Date() };
 
@@ -115,7 +121,7 @@ export default function BookingForm({
         <section
             ref={sectionRef}
             id="booking"
-            className="bg-white section-padding"
+            className="bg-white section-padding scroll-mt-20"
         >
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
@@ -131,11 +137,22 @@ export default function BookingForm({
                 </div>
 
                 {submitStatus === 'success' ? (
-                    <div className="animate-on-scroll bg-green-50 border border-green-200 p-8 text-center">
-                        <h3 className="font-serif text-2xl text-green-800 mb-2">{successTitle}</h3>
-                        <p className="text-green-700">
+                    <div className="bg-green-50 border-2 border-green-200 p-12 text-center rounded-lg shadow-sm animate-in fade-in duration-500">
+                        <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 className="font-serif text-3xl text-green-800 mb-4">{successTitle}</h3>
+                        <p className="text-green-700 text-lg max-w-lg mx-auto leading-relaxed">
                             {successMessage}
                         </p>
+                        <button
+                            onClick={() => setSubmitStatus('idle')}
+                            className="mt-8 text-green-600 font-medium hover:text-green-700 underline underline-offset-4"
+                        >
+                            Enviar otra reserva
+                        </button>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8">

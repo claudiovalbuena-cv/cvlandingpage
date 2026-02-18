@@ -15,9 +15,9 @@ export const revalidate = 0; // Disable cache for immediate updates
 
 export default async function Home() {
     // Fetch data from Supabase
-    let services = [];
+    let services: any[] = [];
     let settings: Record<string, string> = {};
-    let portfolio = [];
+    let portfolio: any[] = [];
 
     try {
         services = await getServices();
