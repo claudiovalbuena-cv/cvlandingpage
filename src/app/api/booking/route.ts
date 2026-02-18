@@ -8,7 +8,6 @@ const resend = new Resend(resendApiKey);
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        console.log('API Request Body:', JSON.stringify(body));
         const { name, email, phone, service_id, preferred_date, message } = body;
 
         // Basic Sanitization
@@ -118,16 +117,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             success: true,
             booking: booking || { message: 'Booking saved' },
-            message: 'Booking request processed',
-            debug: {
-                emailSent,
-                emailError,
-                receivedBody: body,
-                config: {
-                    hasUser: !!gmailUser,
-                    hasPass: !!gmailPass
-                }
-            }
+            message: 'Booking request processed'
         });
     } catch (error) {
         console.error('Booking error:', error);
