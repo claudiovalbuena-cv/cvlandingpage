@@ -8,6 +8,7 @@ const resend = new Resend(resendApiKey);
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
+        console.log('API Request Body:', JSON.stringify(body));
         const { name, email, phone, service_id, preferred_date, message } = body;
 
         // Basic Sanitization
