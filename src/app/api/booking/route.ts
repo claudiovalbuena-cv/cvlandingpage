@@ -53,44 +53,53 @@ export async function POST(request: NextRequest) {
             message: cleanMessage,
         });
 
-        // Send confirmation email via Resend
-        const emailFrom = process.env.EMAIL_FROM || 'onboarding@resend.dev';
-        const emailTo = process.env.EMAIL_TO || email;
-        const isResendConfigured = process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.startsWith('re_placeholder');
+        // Send confirmation email via Nodemailer (Gmail)
+        const gmailUser = process.env.GMAIL_USER;
+        const gmailPass = process.env.GMAIL_APP_PASSWORD;
+        const emailTo = process.env.EMAIL_TO || cleanEmail;
 
-        if (isResendConfigured) {
+        if (gmailUser && gmailPass) {
             try {
-                await resend.emails.send({
-                    from: emailFrom,
-                    to: [emailTo],
-                    subject: `New Booking Request: ${name}`,
+                const nodemailer = await import('nodemailer');
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: gmailUser,
+                        pass: gmailPass,
+                    },
+                });
+
+                await transporter.sendMail({
+                    from: `"CV Landing" <${gmailUser}>`,
+                    to: emailTo,
+                    subject: `Nueva Solicitud de Reserva: ${cleanName}`,
                     html: `
-              <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-                <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 28px; margin-bottom: 24px;">
-                  New Booking Request
+              <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333;">
+                <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 28px; margin-bottom: 24px; color: #000; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                  Nueva Solicitud de Reserva
                 </h1>
                 
-                <div style="background: #F5F5F5; padding: 24px; margin-bottom: 24px;">
-                  <p style="margin: 0 0 8px 0;"><strong>Name:</strong> ${name}</p>
-                  <p style="margin: 0 0 8px 0;"><strong>Email:</strong> ${email}</p>
-                  ${phone ? `<p style="margin: 0 0 8px 0;"><strong>Phone:</strong> ${phone}</p>` : ''}
-                  <p style="margin: 0 0 8px 0;"><strong>Service:</strong> ${serviceName}</p>
-                  <p style="margin: 0 0 8px 0;"><strong>Preferred Date:</strong> ${preferred_date}</p>
-                  ${message ? `<p style="margin: 0;"><strong>Message:</strong> ${message}</p>` : ''}
+                <div style="background: #F9F9F9; padding: 24px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 24px;">
+                  <p style="margin: 0 0 12px 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Cliente:</strong><br/>${cleanName}</p>
+                  <p style="margin: 0 0 12px 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Email:</strong><br/>${cleanEmail}</p>
+                  ${cleanPhone ? `<p style="margin: 0 0 12px 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Teléfono:</strong><br/>${cleanPhone}</p>` : ''}
+                  <p style="margin: 0 0 12px 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Servicio:</strong><br/>${serviceName}</p>
+                  <p style="margin: 0 0 12px 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Fecha Solicitada:</strong><br/>${preferred_date}</p>
+                  ${cleanMessage ? `<p style="margin: 0;"><strong style="text-transform: uppercase; font-size: 11px; color: #888;">Mensaje:</strong><br/>${cleanMessage}</p>` : ''}
                 </div>
                 
-                <p style="color: #666; font-size: 14px;">
-                  Please respond to this inquiry within 24 hours.
+                <p style="color: #666; font-size: 13px; text-align: center; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                  Este es un mensaje automático enviado desde tu página web.
                 </p>
               </div>
             `,
                 });
             } catch (emailError) {
-                console.error('Email sending failed:', emailError);
+                console.error('Gmail sending failed:', emailError);
                 // Don't fail the booking if email fails
             }
         } else {
-            console.warn('Resend API key not configured, skipping email confirmation.');
+            console.warn('Gmail credentials not configured, skipping notification.');
         }
 
         return NextResponse.json({
