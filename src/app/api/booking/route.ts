@@ -58,6 +58,15 @@ export async function POST(request: NextRequest) {
         const gmailPass = process.env.GMAIL_APP_PASSWORD;
         const emailTo = process.env.EMAIL_TO || cleanEmail;
 
+        console.log('Email Attempt:', {
+            hasUser: !!gmailUser,
+            hasPass: !!gmailPass,
+            to: emailTo
+        });
+
+        let emailSent = false;
+        let emailError = null;
+
         if (gmailUser && gmailPass) {
             try {
                 const nodemailer = await import('nodemailer');
@@ -94,18 +103,29 @@ export async function POST(request: NextRequest) {
               </div>
             `,
                 });
-            } catch (emailError) {
-                console.error('Gmail sending failed:', emailError);
-                // Don't fail the booking if email fails
+                emailSent = true;
+                console.log('Email sent successfully');
+            } catch (err: any) {
+                console.error('Gmail sending failed:', err);
+                emailError = err.message || 'Unknown email error';
             }
         } else {
             console.warn('Gmail credentials not configured, skipping notification.');
+            emailError = 'Credential missing';
         }
 
         return NextResponse.json({
             success: true,
             booking: booking || { message: 'Booking saved' },
-            message: 'Booking request submitted successfully',
+            message: 'Booking request processed',
+            debug: {
+                emailSent,
+                emailError,
+                config: {
+                    hasUser: !!gmailUser,
+                    hasPass: !!gmailPass
+                }
+            }
         });
     } catch (error) {
         console.error('Booking error:', error);
