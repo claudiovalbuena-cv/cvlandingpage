@@ -11,13 +11,13 @@ export async function PUT(
         const { name, description, price, category, icon, price_text, price_url } = body;
 
         const service = await updateService(id, {
-            name,
-            description,
+            name: name || undefined,
+            description: description !== undefined ? description : undefined,
             price: price !== undefined ? parseFloat(price) : undefined,
-            price_text,
-            price_url,
-            category,
-            icon,
+            price_text: price_text !== undefined ? price_text : undefined,
+            price_url: price_url !== undefined ? price_url : undefined,
+            category: category !== undefined ? category : undefined,
+            icon: icon !== undefined ? icon : undefined,
         });
 
         return NextResponse.json({ service });

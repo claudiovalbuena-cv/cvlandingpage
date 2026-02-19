@@ -62,9 +62,13 @@ export default function AdminServicesPage() {
             if (response.ok) {
                 fetchServices();
                 resetForm();
+            } else {
+                const errorData = await response.json();
+                alert(`Error saving service: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error saving service:', error);
+            alert('Error saving service. Please check the console for details.');
         }
     };
 
@@ -200,36 +204,7 @@ export default function AdminServicesPage() {
                                     placeholder="Describe los detalles del paquete..."
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Price ($)</label>
-                                <input
-                                    type="number"
-                                    required
-                                    step="0.01"
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Category</label>
-                                <input
-                                    type="text"
-                                    value={formData.category}
-                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300"
-                                    placeholder="e.g., wedding, portrait, fashion"
-                                />
-                            </div>
-                            <div className="md:col-span-2">
-                                <label className="block text-sm font-medium mb-2">Description</label>
-                                <textarea
-                                    value={formData.description}
-                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300"
-                                    rows={3}
-                                />
-                            </div>
+
                             <div className="md:col-span-2 flex gap-4">
                                 <button
                                     type="submit"
