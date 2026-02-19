@@ -4,6 +4,17 @@ import { Service, Booking } from '@/types';
 // Helper function to get Firestore database instance
 const db = () => getDb();
 
+// Helper to remove undefined values from an object (Firestore doesn't allow them in .update())
+function cleanUpdateData(data: any) {
+    const clean: any = {};
+    Object.keys(data).forEach(key => {
+        if (data[key] !== undefined) {
+            clean[key] = data[key];
+        }
+    });
+    return clean;
+}
+
 // Helper functions for data operations
 export async function getServices(): Promise<Service[]> {
     const snapshot = await db().collection('services').orderBy('created_at', 'asc').get();
@@ -51,7 +62,10 @@ export async function updateSetting(key: string, value: string) {
 }
 
 export async function updateService(id: string, service: Partial<Service>) {
-    await db().collection('services').doc(id).update(service);
+    const cleanData = cleanUpdateData(service);
+    if (Object.keys(cleanData).length > 0) {
+        await db().collection('services').doc(id).update(cleanData);
+    }
     return { id, ...service };
 }
 
@@ -88,7 +102,10 @@ export async function createPortfolioItem(item: any) {
 }
 
 export async function updatePortfolioItem(id: string, updates: any) {
-    await db().collection('portfolio').doc(id).update(updates);
+    const cleanData = cleanUpdateData(updates);
+    if (Object.keys(cleanData).length > 0) {
+        await db().collection('portfolio').doc(id).update(cleanData);
+    }
     return { id, ...updates };
 }
 
