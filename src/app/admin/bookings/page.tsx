@@ -18,6 +18,9 @@ export default function AdminBookingsPage() {
         booking_button_text: '',
         booking_success_title: '',
         booking_success_message: '',
+        booking_success_link_text: '',
+        booking_secondary_link_text: '',
+        booking_secondary_link_url: '',
     });
     const [isSavingSettings, setIsSavingSettings] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
@@ -40,6 +43,9 @@ export default function AdminBookingsPage() {
                     booking_button_text: data.settings.booking_button_text || '',
                     booking_success_title: data.settings.booking_success_title || '',
                     booking_success_message: data.settings.booking_success_message || '',
+                    booking_success_link_text: data.settings.booking_success_link_text || '',
+                    booking_secondary_link_text: data.settings.booking_secondary_link_text || '',
+                    booking_secondary_link_url: data.settings.booking_secondary_link_url || '',
                 });
             }
         } catch (error) {
@@ -211,6 +217,36 @@ export default function AdminBookingsPage() {
                                     value={formSettings.booking_success_message}
                                     onChange={(e) => setFormSettings({ ...formSettings, booking_success_message: e.target.value })}
                                     className="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all resize-none"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Texto del Enlace de Éxito (ej: Enviar otra reserva)</label>
+                                <input
+                                    type="text"
+                                    value={formSettings.booking_success_link_text}
+                                    onChange={(e) => setFormSettings({ ...formSettings, booking_success_link_text: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="Enviar otra reserva"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Texto Segundo Enlace (Opcional)</label>
+                                <input
+                                    type="text"
+                                    value={formSettings.booking_secondary_link_text}
+                                    onChange={(e) => setFormSettings({ ...formSettings, booking_secondary_link_text: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="ej: Visitar Portfolio"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">URL Segundo Enlace (Opcional)</label>
+                                <input
+                                    type="text"
+                                    value={formSettings.booking_secondary_link_url}
+                                    onChange={(e) => setFormSettings({ ...formSettings, booking_secondary_link_url: e.target.value })}
+                                    className="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                                    placeholder="https://..."
                                 />
                             </div>
                         </div>

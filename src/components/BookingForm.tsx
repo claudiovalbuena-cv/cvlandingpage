@@ -17,6 +17,9 @@ interface BookingFormProps {
     buttonText?: string;
     successTitle?: string;
     successMessage?: string;
+    successLinkText?: string;
+    secondaryLinkText?: string;
+    secondaryLinkUrl?: string;
 }
 
 export default function BookingForm({
@@ -28,6 +31,9 @@ export default function BookingForm({
     buttonText = 'Solicitar Reserva',
     successTitle = '¡Gracias!',
     successMessage = 'Tu solicitud de reserva ha sido enviada. Me pondré en contacto contigo pronto.',
+    successLinkText = 'Enviar otra reserva',
+    secondaryLinkText = '',
+    secondaryLinkUrl = '',
 }: BookingFormProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -147,12 +153,24 @@ export default function BookingForm({
                         <p className="text-green-700 text-lg max-w-lg mx-auto leading-relaxed">
                             {successMessage}
                         </p>
-                        <button
-                            onClick={() => setSubmitStatus('idle')}
-                            className="mt-8 text-green-600 font-medium hover:text-green-700 underline underline-offset-4"
-                        >
-                            Enviar otra reserva
-                        </button>
+                        <div className="flex flex-col items-center gap-4 mt-8">
+                            <button
+                                onClick={() => setSubmitStatus('idle')}
+                                className="text-green-600 font-medium hover:text-green-700 underline underline-offset-4"
+                            >
+                                {successLinkText}
+                            </button>
+                            {secondaryLinkText && secondaryLinkUrl && (
+                                <a
+                                    href={secondaryLinkUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-green-600 font-medium hover:text-green-700 underline underline-offset-4"
+                                >
+                                    {secondaryLinkText}
+                                </a>
+                            )}
+                        </div>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8">

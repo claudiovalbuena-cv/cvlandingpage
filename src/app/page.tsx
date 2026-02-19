@@ -126,6 +126,9 @@ export default async function Home() {
                 buttonText={settings.booking_button_text}
                 successTitle={settings.booking_success_title}
                 successMessage={settings.booking_success_message}
+                successLinkText={settings.booking_success_link_text}
+                secondaryLinkText={settings.booking_secondary_link_text}
+                secondaryLinkUrl={settings.booking_secondary_link_url}
             />
             <Footer
                 settings={settings}
