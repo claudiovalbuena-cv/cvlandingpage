@@ -19,6 +19,17 @@ export async function PUT(request: NextRequest) {
 
         // Update each setting
         const settingKeys = [
+            'site_name',
+            'site_url',
+            'logo_url',
+            'contact_email',
+            'phone',
+            'instagram',
+            'pinterest',
+            'linkedin',
+            'behance',
+            'facebook',
+            'social_style',
             'hero_title',
             'hero_subtitle',
             'hero_button_text',
