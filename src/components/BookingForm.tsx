@@ -237,7 +237,7 @@ export default function BookingForm({
                                     <option value="">Selecciona un servicio...</option>
                                     {services.map((service) => (
                                         <option key={service.id} value={service.id}>
-                                            {service.name} - ${service.price}
+                                            {service.name}{!service.hide_price ? ` - $${service.price}` : ''}
                                         </option>
                                     ))}
                                 </select>
