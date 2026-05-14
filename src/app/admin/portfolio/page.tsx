@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import AdminHeader from '@/components/AdminHeader';
 import { Plus, Trash2, GripVertical, Upload } from 'lucide-react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { app } from '@/lib/firebase/client';
 
 interface PortfolioItem {
     id: string;
@@ -24,7 +25,7 @@ export default function AdminPortfolioPage() {
         category: 'fashion',
     });
     const [uploading, setUploading] = useState(false);
-    const supabase = createSupabaseBrowserClient();
+    const storage = getStorage(app);
 
     useEffect(() => {
         fetchPortfolio();
@@ -52,15 +53,9 @@ export default function AdminPortfolioPage() {
             const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `portfolio/${fileName}`;
 
-            const { error: uploadError, data } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setFormData(prev => ({ ...prev, url: publicUrl }));
         } catch (error) {

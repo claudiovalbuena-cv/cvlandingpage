@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getPortfolio, createPortfolioItem } from '@/lib/supabase';
+import { getPortfolio, createPortfolioItem } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 

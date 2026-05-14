@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getServices, getBookings, getSettings } from '@/lib/supabase';
+import { getServices, getBookings, getSettings } from '@/lib/db';
 import AdminHeader from '@/components/AdminHeader';
 
 export const metadata: Metadata = {

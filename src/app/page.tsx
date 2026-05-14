@@ -9,7 +9,7 @@ import CTA from '@/components/CTA';
 import Pricing from '@/components/Pricing';
 import BookingForm from '@/components/BookingForm';
 import Footer from '@/components/Footer';
-import { getServices, getSettings } from '@/lib/supabase';
+import { getServices, getSettings } from '@/lib/db';
 
 export const revalidate = 0; // Disable cache for immediate updates
 

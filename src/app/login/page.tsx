@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase/client';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginPage() {
-    const supabase = createSupabaseBrowserClient();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -17,16 +17,32 @@ export default function LoginPage() {
         setLoading(true);
         setError(null);
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        try {
+            // Sign in with Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const idToken = await userCredential.user.getIdToken();
 
-        if (error) {
-            setError(error.message);
+            // Create Firebase session cookie by calling our new endpoint
+            const response = await fetch('/api/auth/session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ idToken }),
+            });
+
+            if (response.ok) {
+                router.push('/admin');
+                router.refresh();
+            } else {
+                const data = await response.json();
+                setError(data.error || 'Failed to create session');
+                setLoading(false);
+            }
+        } catch (err: any) {
+            console.error('Firebase Login Error:', err);
+            setError(err.message || 'Error occurred during login. Check console.');
             setLoading(false);
-        } else {
-            router.push('/admin');
         }
     };
 

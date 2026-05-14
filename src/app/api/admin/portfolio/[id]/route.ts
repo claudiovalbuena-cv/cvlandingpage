@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updatePortfolioItem, deletePortfolioItem } from '@/lib/supabase';
+import { updatePortfolioItem, deletePortfolioItem } from '@/lib/db';
 
 export async function PUT(
     request: NextRequest,

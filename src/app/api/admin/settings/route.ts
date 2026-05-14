@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSettings, updateSetting } from '@/lib/supabase';
+import { getSettings, updateSetting } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 

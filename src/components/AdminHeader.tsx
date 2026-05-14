@@ -2,16 +2,21 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { auth } from '@/lib/firebase/client';
+import { signOut } from 'firebase/auth';
 import { LogOut, LayoutDashboard, Briefcase, Calendar, Settings, ArrowLeft, Image as ImageIcon, Star } from 'lucide-react';
 
 export default function AdminHeader() {
     const router = useRouter();
     const pathname = usePathname();
-    const supabase = createSupabaseBrowserClient();
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        try {
+            await signOut(auth);
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
         router.push('/');
         router.refresh();
     };

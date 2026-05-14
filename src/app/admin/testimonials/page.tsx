@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import AdminHeader from '@/components/AdminHeader';
 import { Star, Save, User } from 'lucide-react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+
 
 interface TestimonialData {
     testimonials_title: string;

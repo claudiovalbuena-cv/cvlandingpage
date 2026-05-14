@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { createBooking, getServices } from '@/lib/supabase';
+import { createBooking, getServices } from '@/lib/db';
 
 const resendApiKey = process.env.RESEND_API_KEY || 're_123456789';
 const resend = new Resend(resendApiKey);

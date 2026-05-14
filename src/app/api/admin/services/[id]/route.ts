@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateService, deleteService } from '@/lib/supabase';
+import { updateService, deleteService } from '@/lib/db';
 
 export async function PUT(
     request: NextRequest,

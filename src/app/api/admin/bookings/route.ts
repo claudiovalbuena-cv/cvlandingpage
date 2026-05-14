@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getBookings } from '@/lib/supabase';
+import { getBookings } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 

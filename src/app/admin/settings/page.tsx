@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
 import { Upload } from 'lucide-react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { app } from '@/lib/firebase/client';
 
 interface SettingsData {
     logo_url: string;
@@ -138,7 +139,7 @@ export default function AdminSettingsPage() {
     const [isSaving, setIsSaving] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const supabase = createSupabaseBrowserClient();
+    const storage = getStorage(app);
 
     useEffect(() => {
         fetchSettings();
@@ -168,15 +169,9 @@ export default function AdminSettingsPage() {
             const fileName = `hero_${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `settings/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setSettings(prev => ({ ...prev, hero_image_url: publicUrl }));
         } catch (error) {
@@ -197,15 +192,9 @@ export default function AdminSettingsPage() {
             const fileName = `behind_${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `settings/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setSettings(prev => ({ ...prev, behind_camera_image_url: publicUrl }));
         } catch (error) {
@@ -226,15 +215,9 @@ export default function AdminSettingsPage() {
             const fileName = `portfolio_${index}_${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `settings/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setSettings(prev => ({ ...prev, [`portfolio_image_${index}`]: publicUrl }));
         } catch (error) {
@@ -255,15 +238,9 @@ export default function AdminSettingsPage() {
             const fileName = `gallery_${index}_${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `settings/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setSettings(prev => ({ ...prev, [`gallery_image_${index}`]: publicUrl }));
         } catch (error) {
@@ -284,15 +261,9 @@ export default function AdminSettingsPage() {
             const fileName = `favicon_${Math.random().toString(36).substring(2)}.${fileExt}`;
             const filePath = `settings/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('media')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('media')
-                .getPublicUrl(filePath);
+            const storageRef = ref(storage, filePath);
+            await uploadBytes(storageRef, file);
+            const publicUrl = await getDownloadURL(storageRef);
 
             setSettings(prev => ({ ...prev, favicon_url: publicUrl }));
         } catch (error) {
