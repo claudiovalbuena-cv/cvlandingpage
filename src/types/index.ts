@@ -7,6 +7,7 @@ export interface Service {
     price_url: string | null;
     category: string | null;
     icon: string | null;
+    hide_price?: boolean;
     created_at: string;
 }
 

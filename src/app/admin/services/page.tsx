@@ -17,6 +17,7 @@ export default function AdminServicesPage() {
         price_text: '/ session',
         price_url: '',
         category: '',
+        hide_price: false,
     });
 
     useEffect(() => {
@@ -97,6 +98,7 @@ export default function AdminServicesPage() {
             price_text: service.price_text || '/ session',
             price_url: service.price_url || '',
             category: service.category || '',
+            hide_price: service.hide_price || false,
         });
         setShowNewForm(true);
     };
@@ -111,6 +113,7 @@ export default function AdminServicesPage() {
             price_text: '/ session',
             price_url: '',
             category: '',
+            hide_price: false,
         });
     };
 
@@ -204,6 +207,18 @@ export default function AdminServicesPage() {
                                     placeholder="Describe los detalles del paquete..."
                                 />
                             </div>
+                            <div className="md:col-span-2 flex items-center gap-3">
+                                <input
+                                    type="checkbox"
+                                    id="hide_price"
+                                    checked={formData.hide_price}
+                                    onChange={(e) => setFormData({ ...formData, hide_price: e.target.checked })}
+                                    className="w-5 h-5 text-accent border-gray-300 rounded focus:ring-accent"
+                                />
+                                <label htmlFor="hide_price" className="text-sm font-medium text-gray-700 cursor-pointer">
+                                    Ocultar precio en la página web (mostrará el servicio pero sin costo visible)
+                                </label>
+                            </div>
 
                             <div className="md:col-span-2 flex gap-4">
                                 <button
@@ -244,7 +259,10 @@ export default function AdminServicesPage() {
                                         )}
                                     </div>
                                     <div className="flex items-center gap-6">
-                                        <p className="text-2xl font-light">${service.price}</p>
+                                        <p className="text-2xl font-light">
+                                            {service.hide_price && <span className="text-sm text-gray-400 italic mr-2 text-base">(Oculto)</span>}
+                                            ${service.price}
+                                        </p>
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => startEditing(service)}

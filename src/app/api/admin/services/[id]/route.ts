@@ -8,7 +8,7 @@ export async function PUT(
     try {
         const { id } = await params;
         const body = await request.json();
-        const { name, description, price, category, icon, price_text, price_url } = body;
+        const { name, description, price, category, icon, price_text, price_url, hide_price } = body;
 
         const service = await updateService(id, {
             name,
@@ -18,6 +18,7 @@ export async function PUT(
             price_url,
             category,
             icon,
+            hide_price: hide_price !== undefined ? hide_price : false,
         });
 
         return NextResponse.json({ service });

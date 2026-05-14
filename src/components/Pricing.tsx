@@ -65,19 +65,23 @@ export default function Pricing({ services, subtitle, title }: PricingProps) {
                             <p className="text-gray-600 mb-6 text-sm leading-relaxed">
                                 {service.description}
                             </p>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-3xl font-light">${service.price.toLocaleString()}</span>
+                            <div className="flex items-baseline gap-1 mt-auto pt-4">
+                                {!service.hide_price && (
+                                    <span className="text-3xl font-light">${service.price.toLocaleString()}</span>
+                                )}
                                 {service.price_url ? (
                                     <a
                                         href={service.price_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-gray-500 text-sm hover:text-accent transition-colors underline decoration-dotted"
+                                        className={`${service.hide_price ? 'text-xl font-medium text-gray-800' : 'text-gray-500 text-sm'} hover:text-accent transition-colors underline decoration-dotted`}
                                     >
-                                        {service.price_text || '/ session'}
+                                        {service.price_text || (service.hide_price ? 'Consultar' : '/ session')}
                                     </a>
                                 ) : (
-                                    <span className="text-gray-500 text-sm">{service.price_text || '/ session'}</span>
+                                    <span className={`${service.hide_price ? 'text-xl font-medium text-gray-800' : 'text-gray-500 text-sm'}`}>
+                                        {service.price_text || (service.hide_price ? 'Consultar' : '/ session')}
+                                    </span>
                                 )}
                             </div>
                         </div>
