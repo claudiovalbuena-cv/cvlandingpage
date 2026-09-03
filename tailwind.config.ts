@@ -17,8 +17,8 @@ const config: Config = {
                     dark: "#333333",
                 },
                 accent: {
-                    DEFAULT: "#D97706",
-                    hover: "#B45309",
+                    DEFAULT: "#a47758",
+                    hover: "#855b40",
                 },
             },
             fontFamily: {
